@@ -1,0 +1,118 @@
+object ViewAdbDialog: TViewAdbDialog
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 379
+  ClientWidth = 543
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object lytAdbExe: TLayout
+    Align = Top
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 1.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 1.000000000000000000
+    Size.Width = 543.000000000000000000
+    Size.Height = 24.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object lblAdbExe: TLabel
+      Align = Left
+      Position.X = 5.000000000000000000
+      Position.Y = 1.000000000000000000
+      Size.Width = 120.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Path to ADB.EXE'
+      TabOrder = 0
+    end
+    object edtAdbExe: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      Text = 
+        'C:\Users\Public\Documents\Embarcadero\Studio\20.0\CatalogReposit' +
+        'ory\AndroidSDK-2525_20.0.33219.4899\platform-tools\Adb.exe'
+      Size.Width = 413.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      object btnBrowse: TEditButton
+        CanFocus = False
+        Cursor = crArrow
+        Size.Width = 84.000000000000000000
+        Size.Height = 18.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Browse'
+        OnClick = btnBrowseClick
+      end
+    end
+  end
+  object lytDeviceIp: TLayout
+    Align = Top
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 1.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 1.000000000000000000
+    Margins.Top = 5.000000000000000000
+    Position.Y = 29.000000000000000000
+    Size.Width = 543.000000000000000000
+    Size.Height = 24.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object lblDeviceIp: TLabel
+      Align = Left
+      Position.X = 5.000000000000000000
+      Position.Y = 1.000000000000000000
+      Size.Width = 120.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Device IP'
+      TabOrder = 0
+    end
+    object edtDeviceIp: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      Size.Width = 413.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TextPrompt = '192.168.1.5'
+      object btnConnect: TEditButton
+        CanFocus = False
+        Cursor = crArrow
+        Size.Width = 84.000000000000000000
+        Size.Height = 18.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Connect'
+        OnClick = btnConnectClick
+      end
+    end
+  end
+  object grpLog: TGroupBox
+    Align = Client
+    Padding.Left = 2.000000000000000000
+    Padding.Top = 20.000000000000000000
+    Padding.Right = 2.000000000000000000
+    Padding.Bottom = 2.000000000000000000
+    Size.Width = 543.000000000000000000
+    Size.Height = 326.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Log'
+    TabOrder = 2
+    object mmoLog: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      Align = Client
+      Size.Width = 539.000000000000000000
+      Size.Height = 304.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Viewport.Width = 535.000000000000000000
+      Viewport.Height = 300.000000000000000000
+    end
+  end
+end
