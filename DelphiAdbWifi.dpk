@@ -36,7 +36,8 @@ requires
 contains
   DAW.Controller in 'DAW.Controller.pas',
   DAW.ViewADB in 'DAW.ViewADB.pas' {ViewAdbDialog},
-  DAW.Main in 'DAW.Main.pas';
+  DAW.Main in 'DAW.Main.pas',
+  DAW.Tools in 'DAW.Tools.pas';
 
 end.
 

@@ -34,13 +34,15 @@ type
     btnBrowse: TEditButton;
     procedure btnConnectClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     FDir: string;
   public
     { Public declarations }
     procedure Log(const AData: string);
-    class function GetDosOutput(CommandLine: string; Work: string = 'C:\'): string;
+    class function GetDosOutput(CommandLine: string;
+      Work: string = 'C:\'): string;
     function SetupDir: Boolean;
   end;
 
@@ -50,10 +52,10 @@ var
 implementation
 
 uses
+  DAW.Tools,
   Winapi.Windows;
 
 {$R *.fmx}
-
 { TViewAdbDialog }
 
 procedure TViewAdbDialog.btnBrowseClick(Sender: TObject);
@@ -81,6 +83,11 @@ begin
 
 end;
 
+procedure TViewAdbDialog.FormCreate(Sender: TObject);
+begin
+  edtAdbExe.Text := TDawTools.AdbExe;
+end;
+
 class function TViewAdbDialog.GetDosOutput(CommandLine, Work: string): string;
 var
   SA: TSecurityAttributes;
@@ -88,7 +95,7 @@ var
   PI: TProcessInformation;
   StdOutPipeRead, StdOutPipeWrite: THandle;
   WasOK: Boolean;
-  Buffer: array[0..255] of AnsiChar;
+  Buffer: array [0 .. 255] of AnsiChar;
   BytesRead: Cardinal;
   WorkDir: string;
   Handle: Boolean;
@@ -117,20 +124,20 @@ begin
       True, 0, nil, PChar(WorkDir), SI, PI);
     CloseHandle(StdOutPipeWrite);
     if Handle then
-    try
-      repeat
-        WasOK := ReadFile(StdOutPipeRead, Buffer, 255, BytesRead, nil);
-        if BytesRead > 0 then
-        begin
-          Buffer[BytesRead] := #0;
-          Result := Result + Buffer;
-        end;
-      until not WasOK or (BytesRead = 0);
-      WaitForSingleObject(PI.hProcess, INFINITE);
-    finally
-      CloseHandle(PI.hThread);
-      CloseHandle(PI.hProcess);
-    end;
+      try
+        repeat
+          WasOK := ReadFile(StdOutPipeRead, Buffer, 255, BytesRead, nil);
+          if BytesRead > 0 then
+          begin
+            Buffer[BytesRead] := #0;
+            Result := Result + Buffer;
+          end;
+        until not WasOK or (BytesRead = 0);
+        WaitForSingleObject(PI.hProcess, INFINITE);
+      finally
+        CloseHandle(PI.hThread);
+        CloseHandle(PI.hProcess);
+      end;
   finally
     CloseHandle(StdOutPipeRead);
   end;
@@ -156,4 +163,3 @@ begin
 end;
 
 end.
-

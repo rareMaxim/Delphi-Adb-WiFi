@@ -7,6 +7,7 @@ object ViewAdbDialog: TViewAdbDialog
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
   DesignerMasterStyle = 0
   object lytAdbExe: TLayout
     Align = Top
@@ -32,9 +33,6 @@ object ViewAdbDialog: TViewAdbDialog
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       Align = Client
       TabOrder = 1
-      Text = 
-        'C:\Users\Public\Documents\Embarcadero\Studio\20.0\CatalogReposit' +
-        'ory\AndroidSDK-2525_20.0.33219.4899\platform-tools\Adb.exe'
       Size.Width = 413.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
