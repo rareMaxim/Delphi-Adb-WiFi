@@ -25,7 +25,6 @@ const
   REG_KEY = '\Software\Embarcadero\BDS\%d.0\PlatformSDKs\';
 var
   Reg: TRegistry;
-  SDK_Andr: string;
   tmpVer: integer;
   tmpSdk: string;
 begin

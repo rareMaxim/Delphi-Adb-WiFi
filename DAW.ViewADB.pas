@@ -44,6 +44,7 @@ type
     class function GetDosOutput(CommandLine: string;
       Work: string = 'C:\'): string;
     function SetupDir: Boolean;
+    procedure CheckResult(const Msg: string);
   end;
 
 var
@@ -56,6 +57,7 @@ uses
   Winapi.Windows;
 
 {$R *.fmx}
+{$R *.Surface.fmx MSWINDOWS}
 { TViewAdbDialog }
 
 procedure TViewAdbDialog.btnBrowseClick(Sender: TObject);
@@ -77,10 +79,25 @@ procedure TViewAdbDialog.btnConnectClick(Sender: TObject);
 begin
   if SetupDir then
   begin
-    Log(GetDosOutput('adb tcpip 5555', FDir));
-    Log(GetDosOutput('adb connect ' + edtDeviceIp.Text, FDir));
+    CheckResult(GetDosOutput('adb kill-server', FDir));
+    CheckResult(GetDosOutput('adb tcpip 5555', FDir));
+    CheckResult(GetDosOutput('adb connect ' + edtDeviceIp.Text, FDir));
   end;
 
+end;
+
+procedure TViewAdbDialog.CheckResult(const Msg: string);
+begin
+  if Msg.Contains('adb: usage: adb connect <host>[:<port>]') then
+  begin
+    Log('Unsupperted format IP. Check settings');
+  end
+  else if Msg.Contains('error: no devices/emulators found') then
+  begin
+
+  end
+  else
+    Log(Msg);
 end;
 
 procedure TViewAdbDialog.FormCreate(Sender: TObject);
