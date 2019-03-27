@@ -37,7 +37,9 @@ contains
   DAW.Controller in 'DAW.Controller.pas',
   DAW.ViewADB in 'DAW.ViewADB.pas' {ViewAdbDialog},
   DAW.Main in 'DAW.Main.pas',
-  DAW.Tools in 'DAW.Tools.pas';
+  DAW.Tools in 'DAW.Tools.pas',
+  DAW.Model.Device in 'DAW.Model.Device.pas',
+  DAW.Utils.DosCMD in 'DAW.Utils.DosCMD.pas';
 
 end.
 
