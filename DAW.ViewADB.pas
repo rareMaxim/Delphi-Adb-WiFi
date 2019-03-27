@@ -32,19 +32,24 @@ type
     mmoLog: TMemo;
     btnConnect: TEditButton;
     btnBrowse: TEditButton;
+    lytExec: TLayout;
+    lblExec: TLabel;
+    edtExec: TEdit;
+    btnExec: TEditButton;
     procedure btnConnectClick(Sender: TObject);
     procedure btnBrowseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnExecClick(Sender: TObject);
   private
     { Private declarations }
     FDir: string;
   public
     { Public declarations }
     procedure Log(const AData: string);
-    class function GetDosOutput(CommandLine: string;
-      Work: string = 'C:\'): string;
+    class function GetDosOutput(CommandLine: string; Work: string = 'C:\'): string;
     function SetupDir: Boolean;
     procedure CheckResult(const Msg: string);
+    procedure ADBExecute(const ACmd: string);
   end;
 
 var
@@ -57,8 +62,12 @@ uses
   Winapi.Windows;
 
 {$R *.fmx}
-{$R *.Surface.fmx MSWINDOWS}
 { TViewAdbDialog }
+
+procedure TViewAdbDialog.ADBExecute(const ACmd: string);
+begin
+  CheckResult(GetDosOutput(ACmd, FDir));
+end;
 
 procedure TViewAdbDialog.btnBrowseClick(Sender: TObject);
 var
@@ -83,7 +92,11 @@ begin
     CheckResult(GetDosOutput('adb tcpip 5555', FDir));
     CheckResult(GetDosOutput('adb connect ' + edtDeviceIp.Text, FDir));
   end;
+end;
 
+procedure TViewAdbDialog.btnExecClick(Sender: TObject);
+begin
+  ADBExecute(edtExec.Text);
 end;
 
 procedure TViewAdbDialog.CheckResult(const Msg: string);
@@ -137,8 +150,8 @@ begin
       hStdError := StdOutPipeWrite;
     end;
     WorkDir := Work;
-    Handle := CreateProcess(nil, PChar('cmd.exe /C ' + CommandLine), nil, nil,
-      True, 0, nil, PChar(WorkDir), SI, PI);
+    Handle := CreateProcess(nil, PChar('cmd.exe /C ' + CommandLine), nil, nil, True, 0, nil,
+      PChar(WorkDir), SI, PI);
     CloseHandle(StdOutPipeWrite);
     if Handle then
       try

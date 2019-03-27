@@ -18,7 +18,7 @@ object ViewAdbDialog: TViewAdbDialog
     Size.Width = 543.000000000000000000
     Size.Height = 24.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 1
+    TabOrder = 2
     object lblAdbExe: TLabel
       Align = Left
       Position.X = 5.000000000000000000
@@ -59,7 +59,7 @@ object ViewAdbDialog: TViewAdbDialog
     Size.Width = 543.000000000000000000
     Size.Height = 24.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 0
+    TabOrder = 1
     object lblDeviceIp: TLabel
       Align = Left
       Position.X = 5.000000000000000000
@@ -97,20 +97,62 @@ object ViewAdbDialog: TViewAdbDialog
     Padding.Right = 2.000000000000000000
     Padding.Bottom = 2.000000000000000000
     Size.Width = 543.000000000000000000
-    Size.Height = 326.000000000000000000
+    Size.Height = 297.000000000000000000
     Size.PlatformDefault = False
     Text = 'Log'
-    TabOrder = 2
+    TabOrder = 3
     object mmoLog: TMemo
       Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
       DataDetectorTypes = []
       Align = Client
       Size.Width = 539.000000000000000000
-      Size.Height = 304.000000000000000000
+      Size.Height = 275.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       Viewport.Width = 535.000000000000000000
-      Viewport.Height = 300.000000000000000000
+      Viewport.Height = 271.000000000000000000
+    end
+  end
+  object lytExec: TLayout
+    Align = Bottom
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 1.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 1.000000000000000000
+    Margins.Top = 5.000000000000000000
+    Position.Y = 355.000000000000000000
+    Size.Width = 543.000000000000000000
+    Size.Height = 24.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object lblExec: TLabel
+      Align = Left
+      Position.X = 5.000000000000000000
+      Position.Y = 1.000000000000000000
+      Size.Width = 120.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'ADB Exec'
+      TabOrder = 0
+    end
+    object edtExec: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Client
+      TabOrder = 1
+      Size.Width = 413.000000000000000000
+      Size.Height = 22.000000000000000000
+      Size.PlatformDefault = False
+      TextPrompt = 'adb devices'
+      object btnExec: TEditButton
+        CanFocus = False
+        Cursor = crArrow
+        Size.Width = 84.000000000000000000
+        Size.Height = 18.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Execute'
+        OnClick = btnExecClick
+      end
     end
   end
 end
