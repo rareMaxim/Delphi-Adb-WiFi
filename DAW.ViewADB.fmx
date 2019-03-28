@@ -109,8 +109,8 @@ object ViewAdbDialog: TViewAdbDialog
       Size.Height = 275.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
-      Viewport.Width = 535.000000000000000000
-      Viewport.Height = 271.000000000000000000
+      Viewport.Width = 539.000000000000000000
+      Viewport.Height = 275.000000000000000000
     end
   end
   object lytExec: TLayout

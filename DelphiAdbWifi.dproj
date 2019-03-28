@@ -42,7 +42,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <DCC_NameSpace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;Winapi;System.Win;$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace)</DCC_NameSpace>
+        <DCC_NameSpace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;Winapi;System.Win;$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace)</DCC_NameSpace>
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <DCC_UnitSearchPath>..;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -108,6 +108,13 @@
         <DCCReference Include="DAW.Tools.pas"/>
         <DCCReference Include="DAW.Model.Device.pas"/>
         <DCCReference Include="DAW.Utils.DosCMD.pas"/>
+        <DCCReference Include="DAW.Adb.pas"/>
+        <DCCReference Include="DAW.Adb.Parser.pas"/>
+        <DCCReference Include="androidwifiadb.pas"/>
+        <DCCReference Include="DAW.View.New.pas">
+            <Form>Form1</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

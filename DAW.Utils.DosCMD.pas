@@ -4,8 +4,16 @@ interface
 
 type
   TDosCMD = class
-    function GetDosOutput(const CommandLine: string;
-      const Work: string = 'C:\'): string;
+  private
+    FWorkDir: string;
+    FCommandLine: string;
+  public
+    function Execute: string; overload;
+    function Execute(const ACommandLine: string): string; overload;
+    function Execute(const ACommandLine, AWork: string): string; overload;
+    constructor Create(const ACommandLine, AWorkDir: string);
+    property WorkDir: string read FWorkDir write FWorkDir;
+    property CommandLine: string read FCommandLine write FCommandLine;
   end;
 
 implementation
@@ -15,7 +23,7 @@ uses
 
 { TDosCMD }
 
-function TDosCMD.GetDosOutput(const CommandLine, Work: string): string;
+function TDosCMD.Execute: string;
 var
   SA: TSecurityAttributes;
   SI: TStartupInfo;
@@ -24,7 +32,6 @@ var
   WasOK: Boolean;
   Buffer: array [0 .. 255] of AnsiChar;
   BytesRead: Cardinal;
-  WorkDir: string;
   Handle: Boolean;
 begin
   Result := '';
@@ -46,9 +53,8 @@ begin
       hStdOutput := StdOutPipeWrite;
       hStdError := StdOutPipeWrite;
     end;
-    WorkDir := Work;
-    Handle := CreateProcess(nil, PChar('cmd.exe /C ' + CommandLine), nil, nil,
-      True, 0, nil, PChar(WorkDir), SI, PI);
+    Handle := CreateProcess(nil, PChar('cmd.exe /C ' + FCommandLine), nil, nil,
+      True, 0, nil, PChar(FWorkDir), SI, PI);
     CloseHandle(StdOutPipeWrite);
     if Handle then
       try
@@ -68,6 +74,25 @@ begin
   finally
     CloseHandle(StdOutPipeRead);
   end;
+end;
+
+constructor TDosCMD.Create(const ACommandLine, AWorkDir: string);
+begin
+  FWorkDir := AWorkDir;
+  FCommandLine := ACommandLine;
+end;
+
+function TDosCMD.Execute(const ACommandLine, AWork: string): string;
+begin
+  FWorkDir := AWork;
+  FCommandLine := ACommandLine;
+  Result := Execute;
+end;
+
+function TDosCMD.Execute(const ACommandLine: string): string;
+begin
+  FCommandLine := ACommandLine;
+  Result := Execute;
 end;
 
 end.

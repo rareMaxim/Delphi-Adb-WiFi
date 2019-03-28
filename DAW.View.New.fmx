@@ -1,0 +1,32 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 323
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Grid1: TGrid
+    Align = Top
+    CanFocus = True
+    ClipChildren = True
+    Size.Width = 640.000000000000000000
+    Size.Height = 193.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Viewport.Width = 620.000000000000000000
+    Viewport.Height = 168.000000000000000000
+    object StringColumn1: TStringColumn
+      Header = 'Device'
+    end
+    object StringColumn2: TStringColumn
+      Header = 'IP'
+    end
+    object CheckColumn1: TCheckColumn
+      Header = 'Connected'
+      Size.Width = 119.000000000000000000
+    end
+  end
+end

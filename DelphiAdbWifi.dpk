@@ -39,7 +39,11 @@ contains
   DAW.Main in 'DAW.Main.pas',
   DAW.Tools in 'DAW.Tools.pas',
   DAW.Model.Device in 'DAW.Model.Device.pas',
-  DAW.Utils.DosCMD in 'DAW.Utils.DosCMD.pas';
+  DAW.Utils.DosCMD in 'DAW.Utils.DosCMD.pas',
+  DAW.Adb in 'DAW.Adb.pas',
+  DAW.Adb.Parser in 'DAW.Adb.Parser.pas',
+  androidwifiadb in 'androidwifiadb.pas',
+  DAW.View.New in 'DAW.View.New.pas' {Form1};
 
 end.
 
