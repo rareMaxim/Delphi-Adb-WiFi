@@ -3,20 +3,29 @@ unit DAW.Controller;
 interface
 
 uses
-  Classes,
+
   Types,
   Menus,
   Windows,
   Graphics,
   ImgList,
   Dialogs,
-  DAW.ViewADB;
+{$IFDEF NEW_UI}
+  DAW.View.New,
+{$ELSE}
+  DAW.ViewADB,
+{$ENDIF}
+  Classes;
 
 type
   TDAWController = class(TInterfacedObject)
   private
     FMenuItem: TMenuItem;
+{$IFDEF NEW_UI}
+    FDialog: TViewAdbDialogNew;
+{$ELSE}
     FDialog: TViewAdbDialog;
+{$ENDIF}
     FIcon: TIcon;
     procedure HandleClickDelphinus(Sender: TObject);
     procedure InstallMenu();
@@ -34,9 +43,9 @@ uses
 
 const
   CToolsMenu = 'ToolsMenu';
-  CConfigureTools = 'ToolsToolsItem'; //heard you like tools....
+  CConfigureTools = 'ToolsToolsItem'; // heard you like tools....
 
-{ TDelphinusController }
+  { TDelphinusController }
 
 constructor TDAWController.Create;
 var
@@ -45,17 +54,22 @@ begin
   inherited;
   FIcon := TIcon.Create();
   FIcon.SetSize(16, 16);
-//  FIcon.Handle := LoadImage(HInstance, Ico_Delphinus, IMAGE_ICON, 0, 0, 0);
+  // FIcon.Handle := LoadImage(HInstance, Ico_Delphinus, IMAGE_ICON, 0, 0, 0);
   LBitmap := TBitmap.Create();
   try
     LBitmap.SetSize(24, 24);
-    LBitmap.Canvas.Draw((24 - FIcon.Width) div 2, (24 - FIcon.Height) div 2, FIcon);
- //   SplashScreenServices.AddPluginBitmap(CVersionedDelphinus, LBitmap.Handle);
+    LBitmap.Canvas.Draw((24 - FIcon.Width) div 2,
+      (24 - FIcon.Height) div 2, FIcon);
+    // SplashScreenServices.AddPluginBitmap(CVersionedDelphinus, LBitmap.Handle);
   finally
     LBitmap.Free;
   end;
   InstallMenu();
+{$IFDEF NEW_UI}
+  FDialog := TViewAdbDialogNew.Create(nil);
+{$ELSE}
   FDialog := TViewAdbDialog.Create(nil);
+{$ENDIF}
 end;
 
 destructor TDAWController.Destroy;
@@ -66,7 +80,8 @@ begin
   inherited;
 end;
 
-function TDAWController.GetIndexOfConfigureTools(AToolsMenu: TMenuItem): Integer;
+function TDAWController.GetIndexOfConfigureTools(AToolsMenu: TMenuItem)
+  : Integer;
 var
   i: Integer;
 begin
@@ -121,4 +136,3 @@ begin
 end;
 
 end.
-

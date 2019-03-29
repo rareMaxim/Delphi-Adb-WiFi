@@ -14,13 +14,14 @@ type
     class function CompilerVersionToProduct(const AVer: single): integer;
     class function AdbExe: string;
     class function AdbPath: string;
+    class function GetInTag(AInput, AStartTag, AEndTag: string): TArray<string>;
   end;
 
 implementation
 
 uses
   Winapi.Windows,
-
+  System.Generics.Collections,
   System.SysUtils;
 
 { TDawTools }
@@ -42,6 +43,39 @@ begin
   if AVer < 30.0 then
     raise Exception.Create('Unsupported IDE version.');
   Result := Round(AVer) - 13;
+end;
+
+class function TDawTools.GetInTag(AInput, AStartTag, AEndTag: string)
+  : TArray<string>;
+var
+  LData: TList<string>;
+  LInpCash: string;
+var
+  start: integer;
+  count: integer;
+  ForAdd: string;
+begin
+  LInpCash := AInput;
+  LData := TList<string>.Create;
+  try
+    while not LInpCash.IsEmpty do
+    begin
+      start := LInpCash.indexOf(AStartTag); // + ;
+      if start < 0 then
+        break;
+      Inc(start, AStartTag.Length);
+      LInpCash := LInpCash.Substring(start);
+      count := LInpCash.indexOf(AEndTag);
+      if (count < 0) then
+        count := LInpCash.Length;
+      ForAdd := LInpCash.Substring(0, count);
+      LData.Add(ForAdd);
+      LInpCash := LInpCash.Substring(count);
+    end;
+    Result := LData.ToArray;
+  finally
+    LData.Free;
+  end;
 end;
 
 class function TDawTools.ReadFromRegAdbExe: string;

@@ -24,6 +24,7 @@ package DelphiAdbWifi;
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
+{$DEFINE NEW_UI}
 {$ENDIF IMPLICITBUILDING}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
@@ -43,7 +44,7 @@ contains
   DAW.Adb in 'DAW.Adb.pas',
   DAW.Adb.Parser in 'DAW.Adb.Parser.pas',
   androidwifiadb in 'androidwifiadb.pas',
-  DAW.View.New in 'DAW.View.New.pas' {Form1};
+  DAW.View.New in 'DAW.View.New.pas' {ViewAdbDialogNew};
 
 end.
 

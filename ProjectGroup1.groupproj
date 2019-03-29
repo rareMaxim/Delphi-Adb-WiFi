@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{05A9EBB8-2258-40DB-BA3F-D2BFD4FC7D81}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="DelphiAdbWifi.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ExeUI.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="DelphiAdbWifi">
+        <MSBuild Projects="DelphiAdbWifi.dproj"/>
+    </Target>
+    <Target Name="DelphiAdbWifi:Clean">
+        <MSBuild Projects="DelphiAdbWifi.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiAdbWifi:Make">
+        <MSBuild Projects="DelphiAdbWifi.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ExeUI">
+        <MSBuild Projects="ExeUI.dproj"/>
+    </Target>
+    <Target Name="ExeUI:Clean">
+        <MSBuild Projects="ExeUI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ExeUI:Make">
+        <MSBuild Projects="ExeUI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="DelphiAdbWifi;ExeUI"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="DelphiAdbWifi:Clean;ExeUI:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="DelphiAdbWifi:Make;ExeUI:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

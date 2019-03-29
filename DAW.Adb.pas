@@ -79,13 +79,15 @@ function TdawAdb.connectDevices(ADevices: TArray<TdawDevice>)
 var
   LDevice: TdawDevice;
   LConnected: Boolean;
+  I: Integer;
 begin
-  for LDevice in ADevices do
-  begin
-    LConnected := connectDeviceByIp(LDevice);
-    LDevice.setIsConnected(LConnected);
-  end;
   Result := ADevices;
+  for I := Low(Result) to High(Result) do
+  begin
+    LConnected := connectDeviceByIp(Result[i]);
+    Result[i].setIsConnected(LConnected);
+  end;
+
 end;
 
 constructor TdawAdb.Create(ACommandLine: TDosCMD; AAdbParser: TdawAdbParser);

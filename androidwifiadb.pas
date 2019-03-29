@@ -11,15 +11,19 @@ type
   IdawView = interface
     ['{1900284A-C00D-423E-9488-C7D32C06919C}']
     procedure showNoConnectedDevicesNotification();
-
     procedure showConnectedDeviceNotification(ADevice: TdawDevice);
-
     procedure showDisconnectedDeviceNotification(ADevice: TdawDevice);
-
     procedure showErrorConnectingDeviceNotification(ADevice: TdawDevice);
-
     procedure showErrorDisconnectingDeviceNotification(ADevice: TdawDevice);
+    procedure showADBNotInstalledNotification();
+  end;
 
+  TAlertService = class(TInterfacedObject, IdawView)
+    procedure showNoConnectedDevicesNotification();
+    procedure showConnectedDeviceNotification(ADevice: TdawDevice);
+    procedure showDisconnectedDeviceNotification(ADevice: TdawDevice);
+    procedure showErrorConnectingDeviceNotification(ADevice: TdawDevice);
+    procedure showErrorDisconnectingDeviceNotification(ADevice: TdawDevice);
     procedure showADBNotInstalledNotification();
   end;
 
@@ -36,9 +40,11 @@ type
     function isADBInstalled: boolean;
     function refreshDevicesList: boolean;
     procedure connectDevices;
+    procedure connectDevice(Device: TdawDevice);
     procedure disconnectDevice(Device: TdawDevice);
     constructor Create(AAdb: TdawAdb; AView: IdawView);
     destructor Destroy; override;
+    function getDevices: TList<TdawDevice>;
   end;
 
 implementation
@@ -55,6 +61,28 @@ begin
   for LDevice in FDevices do
     if connectedDevice.ID.Equals(LDevice.ID) then
       Exit(True);
+end;
+
+procedure TAndroidWiFiADB.connectDevice(Device: TdawDevice);
+var
+  connectedDevices: TList<TdawDevice>;
+  LDevice: TdawDevice;
+begin
+  if not(isADBInstalled()) then
+  begin
+    FView.showADBNotInstalledNotification();
+    Exit;
+  end;
+  connectedDevices := TList<TdawDevice>.Create;
+  try
+    connectedDevices.AddRange(FAdb.connectDevices([Device]));
+    for LDevice in connectedDevices do
+      FDevices.Add(LDevice);
+    showConnectionResultNotification(connectedDevices.ToArray);
+  finally
+    connectedDevices.Free;
+  end;
+
 end;
 
 procedure TAndroidWiFiADB.connectDevices;
@@ -103,11 +131,16 @@ begin
   try
     disconnectedDevices.AddRange(FAdb.disconnectDevices([Device]));
     for LDevice in disconnectedDevices do
-      FDevices.add(LDevice);
+      FDevices.Add(LDevice);
     showDisconnectionResultNotification(disconnectedDevices.ToArray);
   finally
     disconnectedDevices.Free;
   end;
+end;
+
+function TAndroidWiFiADB.getDevices: TList<TdawDevice>;
+begin
+  Result := FDevices;
 end;
 
 function TAndroidWiFiADB.isADBInstalled: boolean;
@@ -131,11 +164,11 @@ begin
     if not checkDeviceExistance(LconnectedDevice) then
     begin
       LconnectedDevice.setIp(FAdb.getDeviceIp(LconnectedDevice));
-      FDevices.add(LconnectedDevice);
+      FDevices.Add(LconnectedDevice);
     end
     else
     begin
-      FDevices.add(LconnectedDevice);
+      FDevices.Add(LconnectedDevice);
     end;
   end;
   Result := True;
@@ -151,7 +184,7 @@ begin
     for LDevice in FDevices do
     begin
       if LDevice.IsConnected then
-        connectedDevices.add(LDevice);
+        connectedDevices.Add(LDevice);
     end;
     FDevices.clear();
     FDevices.AddRange(connectedDevices);
@@ -186,6 +219,40 @@ begin
     else
       FView.showErrorDisconnectingDeviceNotification(LDevice);
   end;
+
+end;
+
+{ TAlertService }
+
+procedure TAlertService.showADBNotInstalledNotification;
+begin
+
+end;
+
+procedure TAlertService.showConnectedDeviceNotification(ADevice: TdawDevice);
+begin
+
+end;
+
+procedure TAlertService.showDisconnectedDeviceNotification(ADevice: TdawDevice);
+begin
+
+end;
+
+procedure TAlertService.showErrorConnectingDeviceNotification(
+  ADevice: TdawDevice);
+begin
+
+end;
+
+procedure TAlertService.showErrorDisconnectingDeviceNotification(
+  ADevice: TdawDevice);
+begin
+
+end;
+
+procedure TAlertService.showNoConnectedDevicesNotification;
+begin
 
 end;
 
