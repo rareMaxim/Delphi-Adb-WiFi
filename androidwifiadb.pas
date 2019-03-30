@@ -31,11 +31,12 @@ type
   private
     FAdb: TdawAdb;
     FView: IdawView;
-    FDevices: TList<TdawDevice>;
+    FDevices: TDictionary<string, TdawDevice>;
     function checkDeviceExistance(connectedDevice: TdawDevice): boolean;
     procedure showConnectionResultNotification(Adevices: TArray<TdawDevice>);
     procedure showDisconnectionResultNotification(Adevices: TArray<TdawDevice>);
   public
+    procedure updateDeviceConnectionState(updatedDevice: TdawDevice);
     procedure removeNotConnectedDevices;
     function isADBInstalled: boolean;
     function refreshDevicesList: boolean;
@@ -77,7 +78,7 @@ begin
   try
     connectedDevices.AddRange(FAdb.connectDevices([Device]));
     for LDevice in connectedDevices do
-      FDevices.Add(LDevice);
+      updateDeviceConnectionState(LDevice);
     showConnectionResultNotification(connectedDevices.ToArray);
   finally
     connectedDevices.Free;
@@ -99,7 +100,6 @@ begin
     FView.showNoConnectedDevicesNotification();
     Exit;
   end;
-
   FDevices.AddRange(FAdb.connectDevices(FDevices.ToArray));
   showConnectionResultNotification(FDevices.ToArray);
 end;
@@ -158,6 +158,7 @@ begin
     Exit(False);
   end;
   removeNotConnectedDevices();
+  // connectDevices;
   Lconnected := FAdb.getDevicesConnectedByUSB();
   for LconnectedDevice in Lconnected do
   begin
@@ -222,6 +223,12 @@ begin
 
 end;
 
+procedure TAndroidWiFiADB.updateDeviceConnectionState(updatedDevice
+  : TdawDevice);
+begin
+  FDevices.Add(updatedDevice);
+end;
+
 { TAlertService }
 
 procedure TAlertService.showADBNotInstalledNotification;
@@ -239,14 +246,14 @@ begin
 
 end;
 
-procedure TAlertService.showErrorConnectingDeviceNotification(
-  ADevice: TdawDevice);
+procedure TAlertService.showErrorConnectingDeviceNotification
+  (ADevice: TdawDevice);
 begin
 
 end;
 
-procedure TAlertService.showErrorDisconnectingDeviceNotification(
-  ADevice: TdawDevice);
+procedure TAlertService.showErrorDisconnectingDeviceNotification
+  (ADevice: TdawDevice);
 begin
 
 end;

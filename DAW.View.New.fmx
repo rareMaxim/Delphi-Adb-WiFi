@@ -35,6 +35,8 @@ object ViewAdbDialogNew: TViewAdbDialogNew
     end
     object StringColumn3: TStringColumn
     end
+    object StringColumn4: TStringColumn
+    end
   end
   object Button1: TButton
     Position.X = 400.000000000000000000
