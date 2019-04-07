@@ -9,6 +9,9 @@
         <Projects Include="ExeUI.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="C:\Users\maks4\Desktop\TelegramPi\Telegram test\Project1.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="ExeUI:Make">
         <MSBuild Projects="ExeUI.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Project1">
+        <MSBuild Projects="C:\Users\maks4\Desktop\TelegramPi\Telegram test\Project1.dproj"/>
+    </Target>
+    <Target Name="Project1:Clean">
+        <MSBuild Projects="C:\Users\maks4\Desktop\TelegramPi\Telegram test\Project1.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Project1:Make">
+        <MSBuild Projects="C:\Users\maks4\Desktop\TelegramPi\Telegram test\Project1.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="DelphiAdbWifi;ExeUI"/>
+        <CallTarget Targets="DelphiAdbWifi;ExeUI;Project1"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="DelphiAdbWifi:Clean;ExeUI:Clean"/>
+        <CallTarget Targets="DelphiAdbWifi:Clean;ExeUI:Clean;Project1:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="DelphiAdbWifi:Make;ExeUI:Make"/>
+        <CallTarget Targets="DelphiAdbWifi:Make;ExeUI:Make;Project1:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -1,0 +1,117 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 393
+  ClientWidth = 441
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object grdDevices: TGrid
+    Align = Client
+    CanFocus = True
+    ClipChildren = True
+    Size.Width = 441.000000000000000000
+    Size.Height = 166.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    RowCount = 5
+    Options = [Editing, ColumnResize, ColumnMove, ColLines, RowLines, RowSelect, Tabs, Header, HeaderClick, AutoDisplacement]
+    OnGetValue = grdDevicesGetValue
+    OnSetValue = grdDevicesSetValue
+    Viewport.Width = 437.000000000000000000
+    Viewport.Height = 141.000000000000000000
+    object dtclmnLastConnected: TDateColumn
+      Header = 'Last connected'
+      ReadOnly = True
+      Format = 'mmm dd - hh:nn'
+    end
+    object strngclmnDeviceName: TStringColumn
+      Header = 'DeviceName'
+    end
+    object strngclmnIP: TStringColumn
+      Header = 'IP'
+    end
+    object strngclmnID: TStringColumn
+      Header = 'ID'
+    end
+  end
+  object lytToolbar: TLayout
+    Align = Top
+    Padding.Left = 5.000000000000000000
+    Padding.Top = 5.000000000000000000
+    Padding.Right = 5.000000000000000000
+    Padding.Bottom = 5.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 42.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object btnAdd: TButton
+      Align = Left
+      Position.X = 5.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'Add Device'
+      OnClick = btnAddClick
+    end
+    object btnConnect: TButton
+      Align = Left
+      Margins.Left = 5.000000000000000000
+      Position.X = 90.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Connect'
+      OnClick = btnConnectClick
+    end
+    object btnDisconnect: TButton
+      Align = Left
+      Margins.Left = 5.000000000000000000
+      Position.X = 175.000000000000000000
+      Position.Y = 5.000000000000000000
+      Size.Width = 80.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Disconnect'
+    end
+  end
+  object mmoLog: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Align = Bottom
+    Position.Y = 208.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 163.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Viewport.Width = 437.000000000000000000
+    Viewport.Height = 159.000000000000000000
+  end
+  object edtCmdEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Bottom
+    TabOrder = 4
+    Position.Y = 371.000000000000000000
+    Size.Width = 441.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    object btnCmdExecute: TEditButton
+      CanFocus = False
+      Cursor = crArrow
+      Size.Width = 84.000000000000000000
+      Size.Height = 18.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      OnClick = btnCmdExecuteClick
+    end
+  end
+end

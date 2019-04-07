@@ -59,7 +59,7 @@ var
   LDevice: TdawDevice;
 begin
   Result := False;
-  for LDevice in FDevices do
+  for LDevice in FDevices.Values do
     if connectedDevice.ID.Equals(LDevice.ID) then
       Exit(True);
 end;

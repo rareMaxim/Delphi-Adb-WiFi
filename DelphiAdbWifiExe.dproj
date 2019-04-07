@@ -1,9 +1,9 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{0DC55575-A29B-4B96-A147-8B4222646177}</ProjectGuid>
+        <ProjectGuid>{AD71CB25-2FB9-41C7-9DF4-9CC4EC5D7FB9}</ProjectGuid>
         <ProjectVersion>18.6</ProjectVersion>
         <FrameworkType>FMX</FrameworkType>
-        <MainSource>ExeUI.dpr</MainSource>
+        <MainSource>DelphiAdbWifiExe.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -64,7 +64,7 @@
         <AUP_READ_PHONE_STATE>true</AUP_READ_PHONE_STATE>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
-        <SanitizedProjectName>ExeUI</SanitizedProjectName>
+        <SanitizedProjectName>DelphiAdbWifiExe</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;IndyIPCommon;RESTComponents;bindcompdbx;DBXInterBaseDriver;IndyIPServer;IndySystem;tethering;fmxFireDAC;FireDAC;bindcompfmx;FireDACSqliteDriver;soaprtl;DbxCommonDriver;fmx;FireDACIBDriver;xmlrtl;soapmidas;rtl;DbxClientDriver;CustomIPTransport;dbexpress;IndyCore;bindcomp;dsnap;FireDACCommon;IndyIPClient;RESTBackendComponents;soapserver;dbxcds;bindengine;CloudService;dsnapxml;dbrtl;IndyProtocols;FireDACCommonDriver;inet;$(DCC_UsePackage)</DCC_UsePackage>
@@ -120,20 +120,21 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="androidwifiadb.pas"/>
+        <DCCReference Include="DAW.View.Main.pas">
+            <Form>Form2</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="DAW.Model.Device.New.pas"/>
+        <DCCReference Include="Daw.Controller.New.pas"/>
+        <DCCReference Include="DAW.Model.Devices.pas"/>
+        <DCCReference Include="DAW.View.DeviceEdit.pas">
+            <Form>ViewDeviceEdit</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
         <DCCReference Include="DAW.Adb.Parser.pas"/>
         <DCCReference Include="DAW.Adb.pas"/>
-        <DCCReference Include="DAW.Model.Device.pas"/>
         <DCCReference Include="DAW.Tools.pas"/>
         <DCCReference Include="DAW.Utils.DosCMD.pas"/>
-        <DCCReference Include="DAW.View.New.pas">
-            <Form>ViewAdbDialogNew</Form>
-            <FormType>fmx</FormType>
-        </DCCReference>
-        <DCCReference Include="DAW.ViewADB.pas">
-            <Form>ViewAdbDialog</Form>
-            <FormType>fmx</FormType>
-        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -152,7 +153,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">ExeUI.dpr</Source>
+                    <Source Name="MainSource">DelphiAdbWifiExe.dpr</Source>
                 </Source>
             </Delphi.Personality>
             <Deployment Version="3">
@@ -181,9 +182,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\ExeUI.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Win32\Debug\DelphiAdbWifiExe.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>ExeUI.exe</RemoteName>
+                        <RemoteName>DelphiAdbWifiExe.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

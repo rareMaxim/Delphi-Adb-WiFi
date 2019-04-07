@@ -3,7 +3,7 @@ unit DAW.Adb.Parser;
 interface
 
 uses
-  DAW.Model.Device;
+  DAW.Model.Device.New;
 
 type
   TdawAdbParser = class
@@ -86,7 +86,7 @@ begin
       if (id.contains('.')) then
         continue;
       name := parseDeviceName(line);
-      Device := TdawDevice.Create(name, id);
+    //  Device := TdawDevice.Create(name, id);
       LDevices.add(Device);
     end;
     Result := LDevices.ToArray;
