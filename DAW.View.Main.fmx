@@ -3,7 +3,7 @@ object Form2: TForm2
   Top = 0
   Caption = 'Form2'
   ClientHeight = 393
-  ClientWidth = 441
+  ClientWidth = 650
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -14,7 +14,7 @@ object Form2: TForm2
     Align = Client
     CanFocus = True
     ClipChildren = True
-    Size.Width = 441.000000000000000000
+    Size.Width = 650.000000000000000000
     Size.Height = 166.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
@@ -22,7 +22,7 @@ object Form2: TForm2
     Options = [Editing, ColumnResize, ColumnMove, ColLines, RowLines, RowSelect, Tabs, Header, HeaderClick, AutoDisplacement]
     OnGetValue = grdDevicesGetValue
     OnSetValue = grdDevicesSetValue
-    Viewport.Width = 437.000000000000000000
+    Viewport.Width = 646.000000000000000000
     Viewport.Height = 141.000000000000000000
     object dtclmnLastConnected: TDateColumn
       Header = 'Last connected'
@@ -38,6 +38,9 @@ object Form2: TForm2
     object strngclmnID: TStringColumn
       Header = 'ID'
     end
+    object strngclmnType: TStringColumn
+      Header = 'Type'
+    end
   end
   object lytToolbar: TLayout
     Align = Top
@@ -45,7 +48,7 @@ object Form2: TForm2
     Padding.Top = 5.000000000000000000
     Padding.Right = 5.000000000000000000
     Padding.Bottom = 5.000000000000000000
-    Size.Width = 441.000000000000000000
+    Size.Width = 650.000000000000000000
     Size.Height = 42.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
@@ -90,11 +93,11 @@ object Form2: TForm2
     DataDetectorTypes = []
     Align = Bottom
     Position.Y = 208.000000000000000000
-    Size.Width = 441.000000000000000000
+    Size.Width = 650.000000000000000000
     Size.Height = 163.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 3
-    Viewport.Width = 437.000000000000000000
+    Viewport.Width = 646.000000000000000000
     Viewport.Height = 159.000000000000000000
   end
   object edtCmdEdit: TEdit
@@ -102,7 +105,7 @@ object Form2: TForm2
     Align = Bottom
     TabOrder = 4
     Position.Y = 371.000000000000000000
-    Size.Width = 441.000000000000000000
+    Size.Width = 650.000000000000000000
     Size.Height = 22.000000000000000000
     Size.PlatformDefault = False
     object btnCmdExecute: TEditButton

@@ -39,6 +39,7 @@ type
     mmoLog: TMemo;
     edtCmdEdit: TEdit;
     btnCmdExecute: TEditButton;
+    strngclmnType: TStringColumn;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -132,6 +133,10 @@ begin
   begin
     Value := FController.Devices[ARow].ID;
   end
+  else if LColumnName = strngclmnType.Name then
+  begin
+    Value := TRttiEnumerationType.GetName(FController.Devices[ARow].ConnectionType);
+  end
 end;
 
 procedure TForm2.grdDevicesSetValue(Sender: TObject; const ACol, ARow: Integer;
@@ -155,6 +160,10 @@ begin
   else if LColumnName = strngclmnID.Name then
   begin
     FController.Devices[ARow].ID := Value.AsString;
+  end
+  else if LColumnName = strngclmnType.Name then
+  begin
+    // readonly
   end
 end;
 
