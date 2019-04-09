@@ -21,7 +21,9 @@ uses
   FMX.StdCtrls,
   FMX.Layouts,
   FMX.Controls.Presentation,
-  FMX.ScrollBox, FMX.Edit, FMX.Memo;
+  FMX.ScrollBox,
+  FMX.Edit,
+  FMX.Memo;
 
 type
   TForm2 = class(TForm)
@@ -78,7 +80,7 @@ end;
 
 procedure TForm2.btnCmdExecuteClick(Sender: TObject);
 begin
-mmoLog.Lines.Add(FController.GetDosCMD.Execute(edtCmdEdit.Text))
+  mmoLog.Lines.Add(FController.GetDosCMD.Execute(edtCmdEdit.Text))
 end;
 
 procedure TForm2.btnConnectClick(Sender: TObject);
@@ -89,6 +91,11 @@ end;
 procedure TForm2.FormCreate(Sender: TObject);
 begin
   FController := TdawController.Create;
+  FController.GetDosCMD.OnExecute :=
+    procedure(AData: string)
+    begin
+      mmoLog.Lines.Add(AData)
+    end;
  // FController.Devices.AddRange(f);
   UpdateCount;
 end;
@@ -121,7 +128,8 @@ begin
   end
 end;
 
-procedure TForm2.grdDevicesSetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
+procedure TForm2.grdDevicesSetValue(Sender: TObject; const ACol, ARow: Integer;
+  const Value: TValue);
 var
   LColumnName: string;
 begin

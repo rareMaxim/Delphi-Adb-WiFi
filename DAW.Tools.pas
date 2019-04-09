@@ -8,13 +8,16 @@ uses
 type
   TDawTools = class
   private
-    class var FAdbExe: string;
+    class var
+      FAdbExe: string;
     class function ReadFromRegAdbExe: string;
   public
-    class function CompilerVersionToProduct(const AVer: single): integer;
+    class function CompilerVersionToProduct(const AVer: Single): Integer;
     class function AdbExe: string;
     class function AdbPath: string;
     class function GetInTag(AInput, AStartTag, AEndTag: string): TArray<string>;
+    class procedure SaveData(const AName, AValue: string);
+    class function LoadData(const AName: string): string;
   end;
 
 implementation
@@ -38,21 +41,20 @@ begin
   Result := ExtractFilePath(AdbExe);
 end;
 
-class function TDawTools.CompilerVersionToProduct(const AVer: single): integer;
+class function TDawTools.CompilerVersionToProduct(const AVer: Single): Integer;
 begin
   if AVer < 30.0 then
     raise Exception.Create('Unsupported IDE version.');
   Result := Round(AVer) - 13;
 end;
 
-class function TDawTools.GetInTag(AInput, AStartTag, AEndTag: string)
-  : TArray<string>;
+class function TDawTools.GetInTag(AInput, AStartTag, AEndTag: string): TArray<string>;
 var
   LData: TList<string>;
   LInpCash: string;
 var
-  start: integer;
-  count: integer;
+  start: Integer;
+  count: Integer;
   ForAdd: string;
 begin
   LInpCash := AInput;
@@ -62,7 +64,7 @@ begin
     begin
       start := LInpCash.indexOf(AStartTag); // + ;
       if start < 0 then
-        break;
+        Break;
       Inc(start, AStartTag.Length);
       LInpCash := LInpCash.Substring(start);
       count := LInpCash.indexOf(AEndTag);
@@ -78,12 +80,28 @@ begin
   end;
 end;
 
+class function TDawTools.LoadData(const AName: string): string;
+const
+  REG_KEY = '\Software\rareMax\DAW\';
+var
+  Reg: TRegistry;
+begin
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    if Reg.OpenKey(REG_KEY, False) then
+      Result := Reg.ReadString(AName);
+  finally
+    Reg.Free;
+  end;
+end;
+
 class function TDawTools.ReadFromRegAdbExe: string;
 const
   REG_KEY = '\Software\Embarcadero\BDS\%d.0\PlatformSDKs\';
 var
   Reg: TRegistry;
-  tmpVer: integer;
+  tmpVer: Integer;
   tmpSdk: string;
 begin
   Result := 'Cant find path :(';
@@ -102,7 +120,23 @@ begin
   finally
     Reg.Free;
   end;
+end;
 
+class procedure TDawTools.SaveData(const AName, AValue: string);
+const
+  REG_KEY = '\Software\rareMax\DAW\';
+var
+  Reg: TRegistry;
+begin
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    if Reg.OpenKey(REG_KEY, True) then
+      Reg.WriteString(AName, AValue);
+  finally
+    Reg.Free;
+  end;
 end;
 
 end.
+

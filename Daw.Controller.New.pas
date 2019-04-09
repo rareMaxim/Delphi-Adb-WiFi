@@ -4,10 +4,10 @@ interface
 
 uses
   Daw.Adb,
-  DAW.Adb.Parser,
-  DAW.Utils.DosCMD,
-  DAW.Model.Device.New,
-  DAW.Model.Devices;
+  Daw.Adb.Parser,
+  Daw.Utils.DosCMD,
+  Daw.Model.Device.New,
+  Daw.Model.Devices;
 
 type
   TdawController = class
@@ -21,8 +21,8 @@ type
     function GetDosCMD: TDosCMD;
     procedure Add(ADevice: TdawDevice);
     procedure Connect(ADevice: TdawDevice);
-    procedure SaveToJSON(const AFileName: string);
-    procedure LoadFromJSON(const AFileName: string);
+    function ToJSON: string;
+    procedure FromJSON(const AData: string);
     destructor Destroy; override;
     property Devices: TdawDevices read FDevices write FDevices;
   end;
@@ -48,17 +48,21 @@ begin
 end;
 
 constructor TdawController.Create;
+var
+  LData: string;
 begin
   FDevices := TdawDevices.Create();
   FAdbParser := TdawAdbParser.Create;
   FCmd := TDosCMD.Create('', TDawTools.AdbPath);
   FAdb := TdawAdb.Create(FCmd, FAdbParser);
-  LoadFromJSON('C:\Users\maks4\Desktop\config.json');
+  LData := TDawTools.LoadData('config');
+  if not LData.IsEmpty then
+    FromJSON(LData);
 end;
 
 destructor TdawController.Destroy;
 begin
-  SaveToJSON('C:\Users\maks4\Desktop\config.json');
+  TDawTools.SaveData('config', ToJSON);
   FDevices.Free;
   inherited;
 end;
@@ -68,34 +72,30 @@ begin
   Result := FCmd;
 end;
 
-procedure TdawController.LoadFromJSON(const AFileName: string);
+procedure TdawController.FromJSON(const AData: string);
 var
   JS: TJsonSerializer;
-  LJson: string;
   LDevices: TArray<TdawDevice>;
 begin
   JS := TJsonSerializer.Create;
   try
-    LJson := TFile.ReadAllText(AFileName);
-    LDevices := JS.Deserialize<TArray<TdawDevice>>(LJson);
+    LDevices := JS.Deserialize<TArray<TdawDevice>>(AData);
     FDevices.AddRange(LDevices);
   finally
     JS.Free;
   end;
 end;
 
-procedure TdawController.SaveToJSON(const AFileName: string);
+function TdawController.ToJSON: string;
 var
   JS: TJsonSerializer;
-  LJson: string;
   LDevices: TArray<TdawDevice>;
 begin
   JS := TJsonSerializer.Create;
   try
     JS.Formatting := TJsonFormatting.Indented;
     LDevices := FDevices.ToArray;
-    LJson := JS.Serialize(LDevices);
-    TFile.WriteAllText(AFileName, LJson);
+    Result := JS.Serialize(LDevices);
   finally
     JS.Free;
   end;
