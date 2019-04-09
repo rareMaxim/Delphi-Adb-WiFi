@@ -82,6 +82,7 @@ object Form2: TForm2
       Size.PlatformDefault = False
       TabOrder = 2
       Text = 'Disconnect'
+      OnClick = btnDisconnectClick
     end
   end
   object mmoLog: TMemo

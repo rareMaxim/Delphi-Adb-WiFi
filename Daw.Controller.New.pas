@@ -21,6 +21,7 @@ type
     function GetDosCMD: TDosCMD;
     procedure Add(ADevice: TdawDevice);
     procedure Connect(ADevice: TdawDevice);
+    procedure Disconnect(ADevice: TdawDevice);
     function ToJSON: string;
     procedure FromJSON(const AData: string);
     destructor Destroy; override;
@@ -65,6 +66,11 @@ begin
   TDawTools.SaveData('config', ToJSON);
   FDevices.Free;
   inherited;
+end;
+
+procedure TdawController.Disconnect(ADevice: TdawDevice);
+begin
+  FAdb.disconnectDevices([ADevice]);
 end;
 
 function TdawController.GetDosCMD: TDosCMD;

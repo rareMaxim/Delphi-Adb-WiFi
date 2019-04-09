@@ -46,6 +46,7 @@ type
     procedure grdDevicesSetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
     procedure btnConnectClick(Sender: TObject);
     procedure btnCmdExecuteClick(Sender: TObject);
+    procedure btnDisconnectClick(Sender: TObject);
   private
     { Private declarations }
     FController: TdawController;
@@ -86,6 +87,11 @@ end;
 procedure TForm2.btnConnectClick(Sender: TObject);
 begin
   FController.Connect(SelectedDevice);
+end;
+
+procedure TForm2.btnDisconnectClick(Sender: TObject);
+begin
+  FController.Disconnect(SelectedDevice);
 end;
 
 procedure TForm2.FormCreate(Sender: TObject);
