@@ -21,6 +21,7 @@ type
     function connectDeviceByIP(deviceIp: string): Boolean;
     function connectDevice(ADevice: TdawDevice): Boolean;
   public
+    procedure Upgrade(ADevice: TdawDevice);
     constructor Create(ACommandLine: TDosCMD; AAdbParser: TdawAdbParser);
     function IsInstalled: Boolean;
     function getDevicesConnectedByUSB: TArray<TdawDevice>;
@@ -146,6 +147,11 @@ end;
 function TdawAdb.IsInstalled: Boolean;
 begin
   Result := TFile.Exists(TDawTools.AdbExe);
+end;
+
+procedure TdawAdb.Upgrade(ADevice: TdawDevice);
+begin
+  ADevice.IP := getDeviceIp(ADevice);
 end;
 
 end.

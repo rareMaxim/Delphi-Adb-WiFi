@@ -19,19 +19,27 @@ type
     FIsConnected: Boolean;
     FConnectionType: TDawConnectionType;
     procedure SetIsConnected(const Value: Boolean);
+    function GetLastConnected: TDateTime;
+  public
+    constructor Create(const AName, AId: string);
     function GetConnectionType: TDawConnectionType;
   published
     property ID: string read FID write FID;
     property Name: string read FName write FName;
     property IP: string read FIP write FIP;
-    property LastConnected: TDateTime read FLastConnected write FLastConnected;
+    property LastConnected: TDateTime read GetLastConnected write FLastConnected;
     property IsConnected: Boolean read FIsConnected write SetIsConnected;
-    property ConnectionType: TDawConnectionType read GetConnectionType;
   end;
 
 implementation
 
 { TdawDevice }
+
+constructor TdawDevice.Create(const AName, AId: string);
+begin
+  FID := AId;
+  FName := AName;
+end;
 
 function TdawDevice.GetConnectionType: TDawConnectionType;
 begin
@@ -41,6 +49,13 @@ begin
     Result := TDawConnectionType.WIFI
   else
     Result := TDawConnectionType.USB;
+end;
+
+function TdawDevice.GetLastConnected: TDateTime;
+begin
+  if GetConnectionType = TDawConnectionType.USB then
+    FLastConnected := Now;
+  Result := FLastConnected;
 end;
 
 procedure TdawDevice.SetIsConnected(const Value: Boolean);

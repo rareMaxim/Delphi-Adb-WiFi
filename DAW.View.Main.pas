@@ -40,6 +40,9 @@ type
     edtCmdEdit: TEdit;
     btnCmdExecute: TEditButton;
     strngclmnType: TStringColumn;
+    btn1: TButton;
+    btnDelete: TButton;
+    procedure btn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
@@ -47,6 +50,7 @@ type
     procedure grdDevicesSetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
     procedure btnConnectClick(Sender: TObject);
     procedure btnCmdExecuteClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
     procedure btnDisconnectClick(Sender: TObject);
   private
     { Private declarations }
@@ -66,11 +70,17 @@ uses
   DAW.View.DeviceEdit;
 {$R *.fmx}
 
+procedure TForm2.btn1Click(Sender: TObject);
+begin
+  FController.AddConnectedInAdb;
+  UpdateCount;
+end;
+
 procedure TForm2.btnAddClick(Sender: TObject);
 var
   LDevice: TdawDevice;
 begin
-  LDevice := TdawDevice.Create;
+  LDevice := TdawDevice.Create('', '');
   try
     if TViewDeviceEdit.Edit(LDevice) then
       FController.Add(LDevice);
@@ -88,11 +98,19 @@ end;
 procedure TForm2.btnConnectClick(Sender: TObject);
 begin
   FController.Connect(SelectedDevice);
+  UpdateCount;
+end;
+
+procedure TForm2.btnDeleteClick(Sender: TObject);
+begin
+  FController.Delete(SelectedDevice);
+  UpdateCount;
 end;
 
 procedure TForm2.btnDisconnectClick(Sender: TObject);
 begin
   FController.Disconnect(SelectedDevice);
+  UpdateCount;
 end;
 
 procedure TForm2.FormCreate(Sender: TObject);
@@ -101,7 +119,8 @@ begin
   FController.GetDosCMD.OnExecute :=
     procedure(AData: string)
     begin
-      mmoLog.Lines.Add(AData)
+      mmoLog.Lines.Add(AData);
+      UpdateCount;
     end;
  // FController.Devices.AddRange(f);
   UpdateCount;
@@ -135,7 +154,7 @@ begin
   end
   else if LColumnName = strngclmnType.Name then
   begin
-    Value := TRttiEnumerationType.GetName(FController.Devices[ARow].ConnectionType);
+    Value := TRttiEnumerationType.GetName(FController.Devices[ARow].GetConnectionType);
   end
 end;
 

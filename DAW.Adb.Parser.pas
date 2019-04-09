@@ -82,11 +82,9 @@ begin
     begin
       line := splittedOutput[i];
       deviceLine := line.Split([' '], TStringSplitOptions.ExcludeEmpty);
-      id := deviceLine[0];
-      if (id.contains('.')) then
-        continue;
+      id := deviceLine[0].Split([':'])[0];
       name := parseDeviceName(line);
-    //  Device := TdawDevice.Create(name, id);
+      Device := TdawDevice.Create(name, id);
       LDevices.add(Device);
     end;
     Result := LDevices.ToArray;
