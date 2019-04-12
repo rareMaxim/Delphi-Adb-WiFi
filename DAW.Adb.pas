@@ -70,7 +70,10 @@ begin
   if ADevice.IP.isEmpty() then
     Result := False
   else
+  begin
+    ADevice.ID := ADevice.IP;
     Result := connectDeviceByIP(ADevice.IP);
+  end;
 end;
 
 function TdawAdb.connectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;

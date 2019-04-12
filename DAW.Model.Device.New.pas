@@ -8,8 +8,6 @@ uses
 type
 {$SCOPEDENUMS ON}
 
-  TDawConnectionType = (Unknown, USB, WiFi);
-
   TdawDevice = class
   private
     FID: string;
@@ -17,12 +15,10 @@ type
     FIP: string;
     FLastConnected: TDateTime;
     FIsConnected: Boolean;
-    FConnectionType: TDawConnectionType;
     procedure SetIsConnected(const Value: Boolean);
     function GetLastConnected: TDateTime;
   public
     constructor Create(const AName, AId: string);
-    function GetConnectionType: TDawConnectionType;
   published
     property ID: string read FID write FID;
     property Name: string read FName write FName;
@@ -41,20 +37,8 @@ begin
   FName := AName;
 end;
 
-function TdawDevice.GetConnectionType: TDawConnectionType;
-begin
-  if ID.IsEmpty then
-    Result := TDawConnectionType.Unknown
-  else if ID = IP then
-    Result := TDawConnectionType.WIFI
-  else
-    Result := TDawConnectionType.USB;
-end;
-
 function TdawDevice.GetLastConnected: TDateTime;
 begin
-  if GetConnectionType = TDawConnectionType.USB then
-    FLastConnected := Now;
   Result := FLastConnected;
 end;
 

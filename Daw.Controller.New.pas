@@ -4,15 +4,16 @@ interface
 
 uses
   Daw.Adb,
-  Daw.Adb.Parser,
-  Daw.Utils.DosCMD,
-  Daw.Model.Device.New,
-  Daw.Model.Devices;
+  DAW.Adb.Parser,
+  DAW.Utils.DosCMD,
+  DAW.Model.Device.New,
+  DAW.Model.Devices;
 
 type
   TdawController = class
   private
-    FDevices: TdawDevices;
+    FLastDevices: TdawDevices;
+    FAvaibleDevices: TdawDevices;
     FAdb: TdawAdb;
     FCmd: TDosCMD;
     FAdbParser: TdawAdbParser;
@@ -25,7 +26,8 @@ type
     procedure Disconnect(ADevice: TdawDevice);
     procedure AddConnectedInAdb;
     destructor Destroy; override;
-    property Devices: TdawDevices read FDevices write FDevices;
+    property LastDevices: TdawDevices read FLastDevices write FLastDevices;
+    property AvaibleDevices: TdawDevices read FAvaibleDevices write FAvaibleDevices;
   end;
 
 implementation
@@ -39,30 +41,26 @@ procedure TdawController.Add(ADevice: TdawDevice);
 var
   x: Integer;
 begin
-  x := FDevices.IsDuplicat(ADevice);
+  x := FLastDevices.IsDuplicat(ADevice);
   if x > -1 then
   begin
     FAdb.Upgrade(ADevice);
-    FDevices[x] := ADevice;
+    FLastDevices[x] := ADevice;
   end
   else
   begin
     FAdb.Upgrade(ADevice);
-    FDevices.Add(ADevice);
+    FLastDevices.Add(ADevice);
   end;
 end;
 
 procedure TdawController.AddConnectedInAdb;
 var
   LFromAdb: TArray<TdawDevice>;
-  LDevice: TdawDevice;
-  LFinded: TdawDevice;
 begin
+  FAvaibleDevices.Clear;
   LFromAdb := FAdb.getDevicesConnectedByUSB;
-  for LDevice in LFromAdb do
-  begin
-    Add(LDevice);
-  end;
+  FAvaibleDevices.AddRange(LFromAdb);
 end;
 
 procedure TdawController.Connect(ADevice: TdawDevice);
@@ -74,24 +72,26 @@ constructor TdawController.Create;
 var
   LDevices: string;
 begin
-  FDevices := TdawDevices.Create();
+  FLastDevices := TdawDevices.Create();
+  FAvaibleDevices := TdawDevices.Create();
   FAdbParser := TdawAdbParser.Create;
   FCmd := TDosCMD.Create('', TDawTools.AdbPath);
   FAdb := TdawAdb.Create(FCmd, FAdbParser);
   LDevices := TDawTools.LoadData('devices');
   if not LDevices.IsEmpty then
-    FDevices.FromJSON(LDevices);
+    FLastDevices.FromJSON(LDevices);
 end;
 
 procedure TdawController.Delete(ADevice: TdawDevice);
 begin
-  FDevices.Remove(ADevice);
+  FLastDevices.Remove(ADevice);
 end;
 
 destructor TdawController.Destroy;
 begin
-  TDawTools.SaveData('devices', FDevices.ToJSON);
-  FDevices.Free;
+  TDawTools.SaveData('devices', FLastDevices.ToJSON);
+  FAvaibleDevices.Free;
+  FLastDevices.Free;
   inherited;
 end;
 

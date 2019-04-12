@@ -23,13 +23,14 @@ uses
   FMX.Controls.Presentation,
   FMX.ScrollBox,
   FMX.Edit,
-  FMX.Memo;
+  FMX.Memo,
+  FMX.TabControl;
 
 type
   TForm2 = class(TForm)
-    grdDevices: TGrid;
+    grdLastDevices: TGrid;
     dtclmnLastConnected: TDateColumn;
-    lytToolbar: TLayout;
+    lytToolbarLastConnected: TLayout;
     btnAdd: TButton;
     strngclmnDeviceName: TStringColumn;
     btnConnect: TButton;
@@ -39,24 +40,38 @@ type
     mmoLog: TMemo;
     edtCmdEdit: TEdit;
     btnCmdExecute: TEditButton;
-    strngclmnType: TStringColumn;
     btn1: TButton;
     btnDelete: TButton;
+    grpLastConnectedDevices: TGroupBox;
+    tbcMenu: TTabControl;
+    tbtmGeneral: TTabItem;
+    tbtmLog: TTabItem;
+    grp1: TGroupBox;
+    spl1: TSplitter;
+    tmr1: TTimer;
+    lyt1: TLayout;
+    btn2: TButton;
+    grdAvaibleDevices: TGrid;
+    strngclmn1: TStringColumn;
+    strngclmn3: TStringColumn;
     procedure btn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
-    procedure grdDevicesGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
-    procedure grdDevicesSetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
+    procedure grdLastDevicesGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
+    procedure grdLastDevicesSetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
     procedure btnConnectClick(Sender: TObject);
     procedure btnCmdExecuteClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnDisconnectClick(Sender: TObject);
+    procedure tmr1Timer(Sender: TObject);
+    procedure grdAvaibleDevicesGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
+    procedure btn2Click(Sender: TObject);
   private
     { Private declarations }
     FController: TdawController;
     procedure UpdateCount;
-    function SelectedDevice: TdawDevice;
+    function SelectedDevice(const IsLast: Boolean): TdawDevice;
   public
     { Public declarations }
   end;
@@ -73,6 +88,16 @@ uses
 procedure TForm2.btn1Click(Sender: TObject);
 begin
   FController.AddConnectedInAdb;
+  UpdateCount;
+end;
+
+procedure TForm2.btn2Click(Sender: TObject);
+var
+  LDevice: TdawDevice;
+begin
+  LDevice := SelectedDevice(False);
+  FController.Add(LDevice);
+  FController.Connect(LDevice);
   UpdateCount;
 end;
 
@@ -97,19 +122,19 @@ end;
 
 procedure TForm2.btnConnectClick(Sender: TObject);
 begin
-  FController.Connect(SelectedDevice);
+  FController.Connect(SelectedDevice(True));
   UpdateCount;
 end;
 
 procedure TForm2.btnDeleteClick(Sender: TObject);
 begin
-  FController.Delete(SelectedDevice);
+  FController.Delete(SelectedDevice(True));
   UpdateCount;
 end;
 
 procedure TForm2.btnDisconnectClick(Sender: TObject);
 begin
-  FController.Disconnect(SelectedDevice);
+  FController.Disconnect(SelectedDevice(True));
   UpdateCount;
 end;
 
@@ -131,70 +156,89 @@ begin
   FreeAndNil(FController);
 end;
 
-procedure TForm2.grdDevicesGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
+procedure TForm2.grdAvaibleDevicesGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
 var
   LColumnName: string;
 begin
-  LColumnName := grdDevices.Columns[ACol].Name;
-  if LColumnName = strngclmnDeviceName.Name then
+  LColumnName := grdAvaibleDevices.Columns[ACol].Name;
+  if LColumnName = strngclmn1.Name then
   begin
-    Value := FController.Devices[ARow].Name;
+    Value := FController.AvaibleDevices[ARow].Name;
   end
-  else if LColumnName = dtclmnLastConnected.Name then
+  else if LColumnName = strngclmn3.Name then
   begin
-    Value := FController.Devices[ARow].LastConnected;
-  end
-  else if LColumnName = strngclmnIP.Name then
-  begin
-    Value := FController.Devices[ARow].IP;
-  end
-  else if LColumnName = strngclmnID.Name then
-  begin
-    Value := FController.Devices[ARow].ID;
-  end
-  else if LColumnName = strngclmnType.Name then
-  begin
-    Value := TRttiEnumerationType.GetName(FController.Devices[ARow].GetConnectionType);
+    Value := FController.AvaibleDevices[ARow].ID;
   end
 end;
 
-procedure TForm2.grdDevicesSetValue(Sender: TObject; const ACol, ARow: Integer;
-  const Value: TValue);
+procedure TForm2.grdLastDevicesGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
 var
   LColumnName: string;
 begin
-  LColumnName := grdDevices.Columns[ACol].Name;
+  LColumnName := grdLastDevices.Columns[ACol].Name;
   if LColumnName = strngclmnDeviceName.Name then
   begin
-    FController.Devices[ARow].Name := Value.AsString;
+    Value := FController.LastDevices[ARow].Name;
   end
   else if LColumnName = dtclmnLastConnected.Name then
   begin
-    FController.Devices[ARow].LastConnected := Value.AsType<TDateTime>;
+    Value := FController.LastDevices[ARow].LastConnected;
   end
   else if LColumnName = strngclmnIP.Name then
   begin
-    FController.Devices[ARow].IP := Value.AsString;
+    Value := FController.LastDevices[ARow].IP;
   end
   else if LColumnName = strngclmnID.Name then
   begin
-    FController.Devices[ARow].ID := Value.AsString;
-  end
-  else if LColumnName = strngclmnType.Name then
-  begin
-    // readonly
+    Value := FController.LastDevices[ARow].ID;
   end
 end;
 
-function TForm2.SelectedDevice: TdawDevice;
+procedure TForm2.grdLastDevicesSetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
+var
+  LColumnName: string;
 begin
-  Result := FController.Devices[grdDevices.Selected];
+  LColumnName := grdLastDevices.Columns[ACol].Name;
+  if LColumnName = strngclmnDeviceName.Name then
+  begin
+    FController.LastDevices[ARow].Name := Value.AsString;
+  end
+  else if LColumnName = dtclmnLastConnected.Name then
+  begin
+    FController.LastDevices[ARow].LastConnected := Value.AsType<TDateTime>;
+  end
+  else if LColumnName = strngclmnIP.Name then
+  begin
+    FController.LastDevices[ARow].IP := Value.AsString;
+  end
+  else if LColumnName = strngclmnID.Name then
+  begin
+    FController.LastDevices[ARow].ID := Value.AsString;
+  end
+end;
+
+function TForm2.SelectedDevice(const IsLast: Boolean): TdawDevice;
+begin
+  if IsLast then
+    Result := FController.LastDevices[grdLastDevices.Selected]
+  else
+    Result := FController.AvaibleDevices[grdAvaibleDevices.Selected];
+end;
+
+procedure TForm2.tmr1Timer(Sender: TObject);
+begin
+  FController.AddConnectedInAdb;
+  UpdateCount;
 end;
 
 procedure TForm2.UpdateCount;
 begin
-  grdDevices.RowCount := 0;
-  grdDevices.RowCount := FController.Devices.Count;
+//  grdLastDevices.RowCount := 0;
+  if grdLastDevices.RowCount <> FController.LastDevices.Count then
+    grdLastDevices.RowCount := FController.LastDevices.Count;
+ // grdAvaibleDevices.RowCount := 0;
+  if grdAvaibleDevices.RowCount <> FController.AvaibleDevices.Count then
+    grdAvaibleDevices.RowCount := FController.AvaibleDevices.Count;
 end;
 
 end.
