@@ -24,6 +24,7 @@ package DelphiAdbWifi;
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
+{$DEFINE NEW_UI}
 {$ENDIF IMPLICITBUILDING}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
@@ -35,15 +36,14 @@ requires
 
 contains
   DAW.Controller in 'DAW.Controller.pas',
-  DAW.ViewADB in 'DAW.ViewADB.pas' {ViewAdbDialog},
   DAW.Main in 'DAW.Main.pas',
   DAW.Tools in 'DAW.Tools.pas',
-  DAW.Model.Device in 'DAW.Model.Device.pas',
   DAW.Utils.DosCMD in 'DAW.Utils.DosCMD.pas',
   DAW.Adb in 'DAW.Adb.pas',
   DAW.Adb.Parser in 'DAW.Adb.Parser.pas',
-  androidwifiadb in 'androidwifiadb.pas',
-  DAW.View.New in 'DAW.View.New.pas' {Form1};
+  DAW.View.DeviceEdit in 'DAW.View.DeviceEdit.pas' {ViewDeviceEdit},
+  DAW.View.Main in 'DAW.View.Main.pas' {Form2},
+  DAW.Model.Device.New in 'DAW.Model.Device.New.pas';
 
 end.
 

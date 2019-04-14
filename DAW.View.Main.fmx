@@ -1,0 +1,262 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Delphi Adb Wifi'
+  ClientHeight = 550
+  ClientWidth = 650
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object tbcMenu: TTabControl
+    Align = Client
+    Size.Width = 650.000000000000000000
+    Size.Height = 550.000000000000000000
+    Size.PlatformDefault = False
+    TabIndex = 0
+    TabOrder = 1
+    TabPosition = PlatformDefault
+    Sizes = (
+      650s
+      524s
+      650s
+      524s)
+    object tbtmGeneral: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 61.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'General'
+      object grpLastConnectedDevices: TGroupBox
+        Align = Client
+        Padding.Left = 5.000000000000000000
+        Padding.Top = 20.000000000000000000
+        Padding.Right = 5.000000000000000000
+        Padding.Bottom = 5.000000000000000000
+        Size.Width = 650.000000000000000000
+        Size.Height = 222.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Last connected devices'
+        TabOrder = 0
+        object grdLastDevices: TGrid
+          Align = Client
+          CanFocus = True
+          ClipChildren = True
+          Size.Width = 640.000000000000000000
+          Size.Height = 155.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          RowCount = 3
+          Options = [Editing, ColumnResize, ColumnMove, ColLines, RowLines, RowSelect, Tabs, Header, HeaderClick, AutoDisplacement]
+          OnGetValue = grdLastDevicesGetValue
+          OnSetValue = grdLastDevicesSetValue
+          Viewport.Width = 636.000000000000000000
+          Viewport.Height = 130.000000000000000000
+          object dtclmnLastConnected: TDateColumn
+            Header = 'Last connected'
+            ReadOnly = True
+            Format = 'mmm dd - hh:nn'
+          end
+          object strngclmnDeviceName: TStringColumn
+            Header = 'DeviceName'
+          end
+          object strngclmnIP: TStringColumn
+            Header = 'IP'
+          end
+          object strngclmnID: TStringColumn
+            Header = 'ID'
+          end
+        end
+        object lytToolbarLastConnected: TLayout
+          Align = Top
+          Padding.Left = 5.000000000000000000
+          Padding.Top = 5.000000000000000000
+          Padding.Right = 5.000000000000000000
+          Padding.Bottom = 5.000000000000000000
+          Position.X = 5.000000000000000000
+          Position.Y = 20.000000000000000000
+          Size.Width = 640.000000000000000000
+          Size.Height = 42.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          object btnAdd: TButton
+            Align = Left
+            Position.X = 5.000000000000000000
+            Position.Y = 5.000000000000000000
+            Size.Width = 80.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+            Text = 'Add Device'
+            OnClick = btnAddClick
+          end
+          object btnConnect: TButton
+            Align = Left
+            Margins.Left = 5.000000000000000000
+            Position.X = 175.000000000000000000
+            Position.Y = 5.000000000000000000
+            Size.Width = 80.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+            Text = 'Connect'
+            OnClick = btnConnectClick
+          end
+          object btnDisconnect: TButton
+            Align = Left
+            Margins.Left = 5.000000000000000000
+            Position.X = 260.000000000000000000
+            Position.Y = 5.000000000000000000
+            Size.Width = 80.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 3
+            Text = 'Disconnect'
+            OnClick = btnDisconnectClick
+          end
+          object btn1: TButton
+            Position.X = 408.000000000000000000
+            Position.Y = 16.000000000000000000
+            TabOrder = 4
+            Text = 'btn1'
+            OnClick = btn1Click
+          end
+          object btnDelete: TButton
+            Align = Left
+            Margins.Left = 5.000000000000000000
+            Position.X = 90.000000000000000000
+            Position.Y = 5.000000000000000000
+            Size.Width = 80.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            Text = 'Delete'
+            OnClick = btnDeleteClick
+          end
+        end
+      end
+      object grp1: TGroupBox
+        Align = Bottom
+        Padding.Left = 5.000000000000000000
+        Padding.Top = 20.000000000000000000
+        Padding.Right = 5.000000000000000000
+        Padding.Bottom = 5.000000000000000000
+        Position.Y = 232.000000000000000000
+        Size.Width = 650.000000000000000000
+        Size.Height = 292.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Connected  devices'
+        TabOrder = 1
+        object lyt1: TLayout
+          Align = Top
+          Padding.Left = 5.000000000000000000
+          Padding.Top = 5.000000000000000000
+          Padding.Right = 5.000000000000000000
+          Padding.Bottom = 5.000000000000000000
+          Position.X = 5.000000000000000000
+          Position.Y = 20.000000000000000000
+          Size.Width = 640.000000000000000000
+          Size.Height = 42.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          object btn2: TButton
+            Align = Left
+            Position.X = 5.000000000000000000
+            Position.Y = 5.000000000000000000
+            Size.Width = 80.000000000000000000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+            Text = 'Add Device'
+            OnClick = btn2Click
+          end
+        end
+        object grdAvaibleDevices: TGrid
+          Align = Client
+          CanFocus = True
+          ClipChildren = True
+          Size.Width = 640.000000000000000000
+          Size.Height = 225.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          RowCount = 3
+          Options = [ColumnResize, ColumnMove, ColLines, RowLines, RowSelect, Tabs, Header, HeaderClick, AutoDisplacement]
+          OnGetValue = grdAvaibleDevicesGetValue
+          Viewport.Width = 636.000000000000000000
+          Viewport.Height = 200.000000000000000000
+          object strngclmn1: TStringColumn
+            Header = 'DeviceName'
+            Size.Width = 249.000000000000000000
+          end
+          object strngclmn3: TStringColumn
+            Header = 'ID'
+            Size.Width = 295.000000000000000000
+          end
+        end
+      end
+      object spl1: TSplitter
+        Align = Bottom
+        Cursor = crVSplit
+        MinSize = 20.000000000000000000
+        Position.Y = 222.000000000000000000
+        Size.Width = 650.000000000000000000
+        Size.Height = 10.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object tbtmLog: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 40.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Log'
+      object edtCmdEdit: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Top
+        TabOrder = 0
+        Size.Width = 650.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        object btnCmdExecute: TEditButton
+          CanFocus = False
+          Cursor = crArrow
+          Size.Width = 84.000000000000000000
+          Size.Height = 18.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Text = 'Execute'
+          OnClick = btnCmdExecuteClick
+        end
+      end
+      object mmoLog: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Align = Client
+        Size.Width = 650.000000000000000000
+        Size.Height = 502.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Viewport.Width = 646.000000000000000000
+        Viewport.Height = 498.000000000000000000
+      end
+    end
+  end
+  object tmr1: TTimer
+    Interval = 5000
+    OnTimer = tmr1Timer
+    Left = 488
+    Top = 338
+  end
+end
