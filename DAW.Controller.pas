@@ -10,22 +10,14 @@ uses
   Graphics,
   ImgList,
   Dialogs,
-{$IFDEF NEW_UI}
-  DAW.View.New,
-{$ELSE}
-  DAW.ViewADB,
-{$ENDIF}
+  DAW.View.Main,
   Classes;
 
 type
   TDAWController = class(TInterfacedObject)
   private
     FMenuItem: TMenuItem;
-{$IFDEF NEW_UI}
-    FDialog: TViewAdbDialogNew;
-{$ELSE}
-    FDialog: TViewAdbDialog;
-{$ENDIF}
+    FDialog: TForm2;
     FIcon: TIcon;
     procedure HandleClickDelphinus(Sender: TObject);
     procedure InstallMenu();
@@ -65,11 +57,7 @@ begin
     LBitmap.Free;
   end;
   InstallMenu();
-{$IFDEF NEW_UI}
-  FDialog := TViewAdbDialogNew.Create(nil);
-{$ELSE}
-  FDialog := TViewAdbDialog.Create(nil);
-{$ENDIF}
+  FDialog := TForm2.Create(nil);
 end;
 
 destructor TDAWController.Destroy;

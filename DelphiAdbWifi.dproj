@@ -42,7 +42,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <DCC_NameSpace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;Winapi;System.Win;$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace)</DCC_NameSpace>
+        <DCC_NameSpace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;Winapi;System.Win;$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace);$(DCC_NameSpace)</DCC_NameSpace>
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <DCC_UnitSearchPath>..;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -101,21 +101,20 @@
         <DCCReference Include="DesignIDE.dcp"/>
         <DCCReference Include="fmx.dcp"/>
         <DCCReference Include="DAW.Controller.pas"/>
-        <DCCReference Include="DAW.ViewADB.pas">
-            <Form>ViewAdbDialog</Form>
-            <FormType>fmx</FormType>
-        </DCCReference>
         <DCCReference Include="DAW.Main.pas"/>
         <DCCReference Include="DAW.Tools.pas"/>
-        <DCCReference Include="DAW.Model.Device.pas"/>
         <DCCReference Include="DAW.Utils.DosCMD.pas"/>
         <DCCReference Include="DAW.Adb.pas"/>
         <DCCReference Include="DAW.Adb.Parser.pas"/>
-        <DCCReference Include="androidwifiadb.pas"/>
-        <DCCReference Include="DAW.View.New.pas">
-            <Form>ViewAdbDialogNew</Form>
+        <DCCReference Include="DAW.View.DeviceEdit.pas">
+            <Form>ViewDeviceEdit</Form>
             <FormType>fmx</FormType>
         </DCCReference>
+        <DCCReference Include="DAW.View.Main.pas">
+            <Form>Form2</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="DAW.Model.Device.New.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -175,13 +174,19 @@
                 </Parameters>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="$(BDS)\Redist\osx64\libcgsqlite3.dylib" Class="DependencyModule">
-                    <Platform Name="OSX64">
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\20.0\Bpl\DelphiAdbWifi.rsm" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>DelphiAdbWifi.rsm</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\osx64\libcgsqlite3.dylib" Class="DependencyModule">
+                    <Platform Name="OSX64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
