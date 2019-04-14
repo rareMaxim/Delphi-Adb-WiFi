@@ -3,30 +3,30 @@ unit DAW.Adb;
 interface
 
 uses
-  DAW.Model.Device,
+  DAW.Model.Device.New,
   DAW.Utils.DosCMD,
   DAW.Adb.Parser;
 
 type
   TdawAdb = class
-  private const
-    TCPIP_PORT = '5555';
+  private
+    const
+      TCPIP_PORT = '5555';
   private
     FCommandLine: TDosCMD;
     FAdbParser: TdawAdbParser;
-    function connectDeviceByIp(ADevice: TdawDevice): Boolean;
-    function connectDevice(deviceIp: string): Boolean;
     function DisconnectDevice(ADeviceIp: string): Boolean;
     procedure enableTCPCommand();
     function checkTCPCommandExecuted: Boolean;
+    function connectDeviceByIP(deviceIp: string): Boolean;
+    function connectDevice(ADevice: TdawDevice): Boolean;
   public
+    procedure Upgrade(ADevice: TdawDevice);
     constructor Create(ACommandLine: TDosCMD; AAdbParser: TdawAdbParser);
     function IsInstalled: Boolean;
     function getDevicesConnectedByUSB: TArray<TdawDevice>;
     function connectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;
-    function disconnectDevices(ADevices: TArray<TdawDevice>)
-      : TArray<TdawDevice>;
-
+    function disconnectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;
     function getDeviceIp(ADevice: TdawDevice): string;
   end;
 
@@ -50,7 +50,7 @@ begin
   Result := TCPIP_PORT.equals(adbTcpPort);
 end;
 
-function TdawAdb.connectDevice(deviceIp: string): Boolean;
+function TdawAdb.connectDeviceByIP(deviceIp: string): Boolean;
 var
   enableTCPCommand: string;
   connectDeviceCommand: string;
@@ -63,29 +63,31 @@ begin
   Result := connectOutput.contains('connected');
 end;
 
-function TdawAdb.connectDeviceByIp(ADevice: TdawDevice): Boolean;
-var
-  deviceIp: string;
+function TdawAdb.connectDevice(ADevice: TdawDevice): Boolean;
 begin
-  deviceIp := getDeviceIp(ADevice);
-  if deviceIp.isEmpty() then
-    Result := false
+  if ADevice.IP.IsEmpty then
+    ADevice.IP := getDeviceIp(ADevice);
+  if ADevice.IP.isEmpty() then
+    Result := False
   else
-    Result := connectDevice(deviceIp);
+  begin
+    ADevice.ID := ADevice.IP;
+    Result := connectDeviceByIP(ADevice.IP);
+  end;
 end;
 
-function TdawAdb.connectDevices(ADevices: TArray<TdawDevice>)
-  : TArray<TdawDevice>;
+function TdawAdb.connectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;
 var
   LDevice: TdawDevice;
   LConnected: Boolean;
+  I: Integer;
 begin
-  for LDevice in ADevices do
-  begin
-    LConnected := connectDeviceByIp(LDevice);
-    LDevice.setIsConnected(LConnected);
-  end;
   Result := ADevices;
+  for I := Low(Result) to High(Result) do
+  begin
+    LConnected := connectDevice(Result[I]);
+    Result[I].IsConnected := (LConnected);
+  end;
 end;
 
 constructor TdawAdb.Create(ACommandLine: TDosCMD; AAdbParser: TdawAdbParser);
@@ -103,8 +105,7 @@ begin
   Result := FCommandLine.Execute(connectDeviceCommand).isEmpty();
 end;
 
-function TdawAdb.disconnectDevices(ADevices: TArray<TdawDevice>)
-  : TArray<TdawDevice>;
+function TdawAdb.disconnectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;
 var
   LDevice: TdawDevice;
   LDisconnected: Boolean;
@@ -133,8 +134,7 @@ var
   getDeviceIpCommand: string;
   ipInfoOutput: string;
 begin
-  getDeviceIpCommand := 'adb -s ' + ADevice.ID +
-    ' shell ip -f inet addr show wlan0';
+  getDeviceIpCommand := 'adb -s ' + ADevice.ID + ' shell ip -f inet addr show wlan0';
   ipInfoOutput := FCommandLine.Execute(getDeviceIpCommand);
   Result := FAdbParser.parseGetDeviceIp(ipInfoOutput);
 end;
@@ -152,4 +152,10 @@ begin
   Result := TFile.Exists(TDawTools.AdbExe);
 end;
 
+procedure TdawAdb.Upgrade(ADevice: TdawDevice);
+begin
+  ADevice.IP := getDeviceIp(ADevice);
+end;
+
 end.
+

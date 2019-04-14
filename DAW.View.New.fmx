@@ -1,4 +1,4 @@
-object Form1: TForm1
+object ViewAdbDialogNew: TViewAdbDialogNew
   Left = 0
   Top = 0
   Caption = 'Form1'
@@ -7,6 +7,8 @@ object Form1: TForm1
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object Grid1: TGrid
     Align = Top
@@ -16,7 +18,10 @@ object Form1: TForm1
     Size.Height = 193.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    Viewport.Width = 620.000000000000000000
+    RowCount = 0
+    OnGetValue = Grid1GetValue
+    OnSetValue = Grid1SetValue
+    Viewport.Width = 636.000000000000000000
     Viewport.Height = 168.000000000000000000
     object StringColumn1: TStringColumn
       Header = 'Device'
@@ -28,5 +33,21 @@ object Form1: TForm1
       Header = 'Connected'
       Size.Width = 119.000000000000000000
     end
+    object StringColumn3: TStringColumn
+    end
+    object StringColumn4: TStringColumn
+    end
+  end
+  object Button1: TButton
+    Position.X = 400.000000000000000000
+    Position.Y = 224.000000000000000000
+    TabOrder = 3
+    Text = 'Update'
+    OnClick = Button1Click
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 296
+    Top = 240
   end
 end

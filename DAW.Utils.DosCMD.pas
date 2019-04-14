@@ -2,11 +2,16 @@ unit DAW.Utils.DosCMD;
 
 interface
 
+uses
+  System.SysUtils;
+
 type
   TDosCMD = class
   private
     FWorkDir: string;
     FCommandLine: string;
+    FOnExecute: TProc<string>;
+    procedure DoOnExecute(const AData: string);
   public
     function Execute: string; overload;
     function Execute(const ACommandLine: string): string; overload;
@@ -14,6 +19,7 @@ type
     constructor Create(const ACommandLine, AWorkDir: string);
     property WorkDir: string read FWorkDir write FWorkDir;
     property CommandLine: string read FCommandLine write FCommandLine;
+    property OnExecute: TProc<string> read FOnExecute write FOnExecute;
   end;
 
 implementation
@@ -30,7 +36,7 @@ var
   PI: TProcessInformation;
   StdOutPipeRead, StdOutPipeWrite: THandle;
   WasOK: Boolean;
-  Buffer: array [0 .. 255] of AnsiChar;
+  Buffer: array[0..255] of AnsiChar;
   BytesRead: Cardinal;
   Handle: Boolean;
 begin
@@ -57,29 +63,36 @@ begin
       True, 0, nil, PChar(FWorkDir), SI, PI);
     CloseHandle(StdOutPipeWrite);
     if Handle then
-      try
-        repeat
-          WasOK := ReadFile(StdOutPipeRead, Buffer, 255, BytesRead, nil);
-          if BytesRead > 0 then
-          begin
-            Buffer[BytesRead] := #0;
-            Result := Result + Buffer;
-          end;
-        until not WasOK or (BytesRead = 0);
-        WaitForSingleObject(PI.hProcess, INFINITE);
-      finally
-        CloseHandle(PI.hThread);
-        CloseHandle(PI.hProcess);
-      end;
+    try
+      repeat
+        WasOK := ReadFile(StdOutPipeRead, Buffer, 255, BytesRead, nil);
+        if BytesRead > 0 then
+        begin
+          Buffer[BytesRead] := #0;
+          Result := Result + Buffer;
+        end;
+      until not WasOK or (BytesRead = 0);
+      WaitForSingleObject(PI.hProcess, INFINITE);
+    finally
+      CloseHandle(PI.hThread);
+      CloseHandle(PI.hProcess);
+    end;
   finally
     CloseHandle(StdOutPipeRead);
   end;
+  DoOnExecute(Result);
 end;
 
 constructor TDosCMD.Create(const ACommandLine, AWorkDir: string);
 begin
   FWorkDir := AWorkDir;
   FCommandLine := ACommandLine;
+end;
+
+procedure TDosCMD.DoOnExecute(const AData: string);
+begin
+  if Assigned(OnExecute) then
+    OnExecute(AData);
 end;
 
 function TDosCMD.Execute(const ACommandLine, AWork: string): string;
@@ -96,3 +109,4 @@ begin
 end;
 
 end.
+
