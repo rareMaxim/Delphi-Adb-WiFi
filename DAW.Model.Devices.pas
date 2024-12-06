@@ -27,7 +27,7 @@ uses
 
 function TdawDevices.Compare(const ALeft, ARight: string): Boolean;
 begin
-  Result := not (ALeft.IsEmpty and ARight.IsEmpty);
+  Result := not(ALeft.IsEmpty and ARight.IsEmpty);
   if Result then
     Result := ALeft = ARight;
 end;
@@ -39,7 +39,7 @@ var
 begin
   JS := TJsonSerializer.Create;
   try
-    LDevices := JS.Deserialize<TArray<TdawDevice>>(AData);
+    LDevices := JS.Deserialize < TArray < TdawDevice >> (AData);
     AddRange(LDevices);
   finally
     JS.Free;
@@ -55,7 +55,7 @@ begin
   for I := 0 to Count - 1 do
   begin
     LD := Items[I];
-    if Compare(Items[I].ID, ADevice.ID) or Compare(Items[I].IP, ADevice.IP) then
+    if Compare(LD.ID, ADevice.ID) or Compare(LD.IP, ADevice.IP) then
     begin
       Result := I;
       Break;
@@ -80,4 +80,3 @@ begin
 end;
 
 end.
-

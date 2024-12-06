@@ -1,4 +1,4 @@
-unit DAW.Utils.DosCMD;
+﻿unit DAW.Utils.DosCMD;
 
 interface
 
@@ -16,6 +16,7 @@ type
     function Execute: string; overload;
     function Execute(const ACommandLine: string): string; overload;
     function Execute(const ACommandLine, AWork: string): string; overload;
+    function Execute(const ACommandLine: string; const Args: array of const): string; overload;
     constructor Create(const ACommandLine, AWorkDir: string);
     property WorkDir: string read FWorkDir write FWorkDir;
     property CommandLine: string read FCommandLine write FCommandLine;
@@ -31,54 +32,54 @@ uses
 
 function TDosCMD.Execute: string;
 var
-  SA: TSecurityAttributes;
-  SI: TStartupInfo;
-  PI: TProcessInformation;
-  StdOutPipeRead, StdOutPipeWrite: THandle;
+  SecurityAttributes: TSecurityAttributes;
+  StartupInfo: TStartupInfo;
+  ProcessInfo: TProcessInformation;
+  StdOutRead, StdOutWrite: THandle;
   WasOK: Boolean;
-  Buffer: array[0..255] of AnsiChar;
-  BytesRead: Cardinal;
+  Buffer: array [0 .. 1023] of AnsiChar;
+  BytesRead: DWORD;
   Handle: Boolean;
 begin
   Result := '';
-  with SA do
+  with SecurityAttributes do
   begin
-    nLength := SizeOf(SA);
+    nLength := SizeOf(SecurityAttributes);
     bInheritHandle := True;
     lpSecurityDescriptor := nil;
   end;
-  CreatePipe(StdOutPipeRead, StdOutPipeWrite, @SA, 0);
+  CreatePipe(StdOutRead, StdOutWrite, @SecurityAttributes, 0);
   try
-    with SI do
+    with StartupInfo do
     begin
-      FillChar(SI, SizeOf(SI), 0);
-      cb := SizeOf(SI);
+      FillChar(StartupInfo, SizeOf(StartupInfo), 0);
+      cb := SizeOf(StartupInfo);
       dwFlags := STARTF_USESHOWWINDOW or STARTF_USESTDHANDLES;
       wShowWindow := SW_HIDE;
       hStdInput := GetStdHandle(STD_INPUT_HANDLE); // don't redirect stdin
-      hStdOutput := StdOutPipeWrite;
-      hStdError := StdOutPipeWrite;
+      hStdOutput := StdOutWrite;
+      hStdError := StdOutWrite;
     end;
-    Handle := CreateProcess(nil, PChar('cmd.exe /C ' + FCommandLine), nil, nil,
-      True, 0, nil, PChar(FWorkDir), SI, PI);
-    CloseHandle(StdOutPipeWrite);
+    Handle := CreateProcess(nil, PChar('cmd.exe /C ' + FCommandLine), nil, nil, True, 0, nil, PChar(FWorkDir), StartupInfo,
+      ProcessInfo);
+    CloseHandle(StdOutWrite);
     if Handle then
-    try
-      repeat
-        WasOK := ReadFile(StdOutPipeRead, Buffer, 255, BytesRead, nil);
-        if BytesRead > 0 then
-        begin
-          Buffer[BytesRead] := #0;
-          Result := Result + Buffer;
-        end;
-      until not WasOK or (BytesRead = 0);
-      WaitForSingleObject(PI.hProcess, INFINITE);
-    finally
-      CloseHandle(PI.hThread);
-      CloseHandle(PI.hProcess);
-    end;
+      try
+        repeat
+          WasOK := ReadFile(StdOutRead, Buffer, 255, BytesRead, nil);
+          if BytesRead > 0 then
+          begin
+            Buffer[BytesRead] := #0;
+            Result := Result + Buffer;
+          end;
+        until not WasOK or (BytesRead = 0);
+        WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
+      finally
+        CloseHandle(ProcessInfo.hThread);
+        CloseHandle(ProcessInfo.hProcess);
+      end;
   finally
-    CloseHandle(StdOutPipeRead);
+    CloseHandle(StdOutRead);
   end;
   DoOnExecute(Result);
 end;
@@ -95,6 +96,11 @@ begin
     OnExecute(AData);
 end;
 
+function TDosCMD.Execute(const ACommandLine: string; const Args: array of const): string;
+begin
+  Result := Execute(Format(ACommandLine, Args));
+end;
+
 function TDosCMD.Execute(const ACommandLine, AWork: string): string;
 begin
   FWorkDir := AWork;
@@ -109,4 +115,3 @@ begin
 end;
 
 end.
-

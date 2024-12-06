@@ -28,7 +28,7 @@ uses
 function TdawAdbParser.parseAdbServiceTcpPort(getPropOutput: string): string;
 
 begin
-
+  raise Exception.Create(getPropOutput);
 end;
 
 function TdawAdbParser.parseDeviceName(const ALine: string): string;

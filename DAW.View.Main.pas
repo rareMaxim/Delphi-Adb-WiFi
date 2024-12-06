@@ -24,7 +24,7 @@ uses
   FMX.ScrollBox,
   FMX.Edit,
   FMX.Memo,
-  FMX.TabControl;
+  FMX.TabControl, FMX.Memo.Types;
 
 type
   TForm2 = class(TForm)

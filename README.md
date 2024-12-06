@@ -1,19 +1,4 @@
 # Delphi-Adb-WiFi - Alpha
-Плагин для RAD Studio, который позволяет производить запуск и отладку на устройсте Android без подключения к компьютеру через USB. Работает по WiFi.
+A plug-in for RAD Studio that allows you to run and debug on an Android device without connecting to a computer via USB. Works over WiFi.
 
-## Начальная инициализация
-1. Подключаем девайс по USB
-2. Проверьте, что устройство Android и ПК в одной сети.
-3. Открываем в RAD Studio меню **Tools - Adb WiFi**
-4. В диалоговом окне введите IP-адресс устройства*, и нажмите **Connect**.
-4.1 IP-адресс устройства можно узнать в сведениях о подключенной Wi-Fi сети. В зависимости от прошивки может находиться в разных местах. 
-
-## Повторное подключение
-1. Проверьте, что устройство Android и ПК в одной сети.
-2. Открываем в RAD Studio меню **Tools - Adb WiFi**
-3. В диалоговом окне введите IP-адресс устройства*, и нажмите **Connect**.
-3.1 IP-адресс устройства можно узнать в сведениях о подключенной Wi-Fi сети. В зависимости от прошивки может находиться в разных местах. 
-
-## Примечания
-* Для Android 9 что бы получить IP - в меню "Для разработчиков" активируйте пункт "Режим ADB-отладки по сети". Для этой версии ОС нет нужды подключать устройство через USB. 
-* Работа плагина проверена на Android 9.
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-team.svg)](https://stand-with-ukraine.pp.ua)

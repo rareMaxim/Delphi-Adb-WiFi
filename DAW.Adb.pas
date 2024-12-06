@@ -9,9 +9,8 @@ uses
 
 type
   TdawAdb = class
-  private
-    const
-      TCPIP_PORT = '5555';
+  private const
+    TCPIP_PORT = '5555';
   private
     FCommandLine: TDosCMD;
     FAdbParser: TdawAdbParser;
@@ -28,6 +27,8 @@ type
     function connectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;
     function disconnectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;
     function getDeviceIp(ADevice: TdawDevice): string;
+    function getDeviceModel(ADevice: TdawDevice): string;
+
   end;
 
 implementation
@@ -67,7 +68,7 @@ function TdawAdb.connectDevice(ADevice: TdawDevice): Boolean;
 begin
   if ADevice.IP.IsEmpty then
     ADevice.IP := getDeviceIp(ADevice);
-  if ADevice.IP.isEmpty() then
+  if ADevice.IP.IsEmpty() then
     Result := False
   else
   begin
@@ -78,7 +79,6 @@ end;
 
 function TdawAdb.connectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;
 var
-  LDevice: TdawDevice;
   LConnected: Boolean;
   I: Integer;
 begin
@@ -102,7 +102,7 @@ var
 begin
   enableTCPCommand();
   connectDeviceCommand := 'adb disconnect ' + ADeviceIp;
-  Result := FCommandLine.Execute(connectDeviceCommand).isEmpty();
+  Result := FCommandLine.Execute(connectDeviceCommand).IsEmpty();
 end;
 
 function TdawAdb.disconnectDevices(ADevices: TArray<TdawDevice>): TArray<TdawDevice>;
@@ -139,6 +139,11 @@ begin
   Result := FAdbParser.parseGetDeviceIp(ipInfoOutput);
 end;
 
+function TdawAdb.getDeviceModel(ADevice: TdawDevice): string;
+begin
+  Result := FCommandLine.Execute('adb -s %s shell getprop ro.product.model', [ADevice.ID]);
+end;
+
 function TdawAdb.getDevicesConnectedByUSB: TArray<TdawDevice>;
 var
   adbDevicesOutput: string;
@@ -158,4 +163,3 @@ begin
 end;
 
 end.
-

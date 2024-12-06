@@ -3,7 +3,7 @@ unit androidwifiadb;
 interface
 
 uses
-  DAW.Model.Device,
+  DAW.Model.Device.New,
   System.Generics.Collections,
   DAW.Adb;
 
@@ -31,7 +31,7 @@ type
   private
     FAdb: TdawAdb;
     FView: IdawView;
-    FDevices: TDictionary<string, TdawDevice>;
+    FDevices: TList<TdawDevice>;
     function checkDeviceExistance(connectedDevice: TdawDevice): boolean;
     procedure showConnectionResultNotification(Adevices: TArray<TdawDevice>);
     procedure showDisconnectionResultNotification(Adevices: TArray<TdawDevice>);
@@ -59,7 +59,7 @@ var
   LDevice: TdawDevice;
 begin
   Result := False;
-  for LDevice in FDevices.Values do
+  for LDevice in FDevices do
     if connectedDevice.ID.Equals(LDevice.ID) then
       Exit(True);
 end;
@@ -164,7 +164,7 @@ begin
   begin
     if not checkDeviceExistance(LconnectedDevice) then
     begin
-      LconnectedDevice.setIp(FAdb.getDeviceIp(LconnectedDevice));
+      LconnectedDevice.IP := FAdb.getDeviceIp(LconnectedDevice);
       FDevices.Add(LconnectedDevice);
     end
     else

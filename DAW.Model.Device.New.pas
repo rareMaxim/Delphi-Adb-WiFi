@@ -25,6 +25,7 @@ type
     property IP: string read FIP write FIP;
     property LastConnected: TDateTime read GetLastConnected write FLastConnected;
     property IsConnected: Boolean read FIsConnected write SetIsConnected;
+
   end;
 
 implementation

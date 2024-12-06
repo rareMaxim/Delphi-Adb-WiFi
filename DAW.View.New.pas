@@ -7,7 +7,7 @@ uses
   DAW.Utils.DosCmd,
   DAW.Adb.Parser,
   DAW.Tools,
-  DAW.Model.Device,
+  DAW.Model.Device.New,
   System.SysUtils, System.Types, System.UITypes, System.Classes,
   System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, System.Rtti,
@@ -113,7 +113,7 @@ begin
       Value := LDevice.IP;
     2, 3:
       begin
-        Value := LDevice.GetIsConnected.ToString(TUseBoolStrs.True);
+        Value := LDevice.IsConnected.ToString(TUseBoolStrs.True);
       end;
     4:
       Value := LDevice.ID;

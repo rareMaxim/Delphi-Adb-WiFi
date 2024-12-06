@@ -25,17 +25,22 @@ object ViewAdbDialogNew: TViewAdbDialogNew
     Viewport.Height = 168.000000000000000000
     object StringColumn1: TStringColumn
       Header = 'Device'
+      HeaderSettings.TextSettings.WordWrap = False
     end
     object StringColumn2: TStringColumn
       Header = 'IP'
+      HeaderSettings.TextSettings.WordWrap = False
     end
     object CheckColumn1: TCheckColumn
       Header = 'Connected'
+      HeaderSettings.TextSettings.WordWrap = False
       Size.Width = 119.000000000000000000
     end
     object StringColumn3: TStringColumn
+      HeaderSettings.TextSettings.WordWrap = False
     end
     object StringColumn4: TStringColumn
+      HeaderSettings.TextSettings.WordWrap = False
     end
   end
   object Button1: TButton
@@ -43,6 +48,7 @@ object ViewAdbDialogNew: TViewAdbDialogNew
     Position.Y = 224.000000000000000000
     TabOrder = 3
     Text = 'Update'
+    TextSettings.Trimming = None
     OnClick = Button1Click
   end
   object Timer1: TTimer

@@ -27,6 +27,7 @@ object Form2: TForm2
       CustomIcon = <
         item
         end>
+      TextSettings.Trimming = None
       IsSelected = True
       Size.Width = 61.000000000000000000
       Size.Height = 26.000000000000000000
@@ -34,6 +35,8 @@ object Form2: TForm2
       StyleLookup = ''
       TabOrder = 0
       Text = 'General'
+      ExplicitSize.cx = 61.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object grpLastConnectedDevices: TGroupBox
         Align = Client
         Padding.Left = 5.000000000000000000
@@ -61,17 +64,21 @@ object Form2: TForm2
           Viewport.Height = 130.000000000000000000
           object dtclmnLastConnected: TDateColumn
             Header = 'Last connected'
+            HeaderSettings.TextSettings.WordWrap = False
             ReadOnly = True
             Format = 'mmm dd - hh:nn'
           end
           object strngclmnDeviceName: TStringColumn
             Header = 'DeviceName'
+            HeaderSettings.TextSettings.WordWrap = False
           end
           object strngclmnIP: TStringColumn
             Header = 'IP'
+            HeaderSettings.TextSettings.WordWrap = False
           end
           object strngclmnID: TStringColumn
             Header = 'ID'
+            HeaderSettings.TextSettings.WordWrap = False
           end
         end
         object lytToolbarLastConnected: TLayout
@@ -95,6 +102,7 @@ object Form2: TForm2
             Size.PlatformDefault = False
             TabOrder = 0
             Text = 'Add Device'
+            TextSettings.Trimming = None
             OnClick = btnAddClick
           end
           object btnConnect: TButton
@@ -107,6 +115,7 @@ object Form2: TForm2
             Size.PlatformDefault = False
             TabOrder = 1
             Text = 'Connect'
+            TextSettings.Trimming = None
             OnClick = btnConnectClick
           end
           object btnDisconnect: TButton
@@ -119,6 +128,7 @@ object Form2: TForm2
             Size.PlatformDefault = False
             TabOrder = 3
             Text = 'Disconnect'
+            TextSettings.Trimming = None
             OnClick = btnDisconnectClick
           end
           object btn1: TButton
@@ -126,6 +136,7 @@ object Form2: TForm2
             Position.Y = 16.000000000000000000
             TabOrder = 4
             Text = 'btn1'
+            TextSettings.Trimming = None
             OnClick = btn1Click
           end
           object btnDelete: TButton
@@ -138,6 +149,7 @@ object Form2: TForm2
             Size.PlatformDefault = False
             TabOrder = 2
             Text = 'Delete'
+            TextSettings.Trimming = None
             OnClick = btnDeleteClick
           end
         end
@@ -175,6 +187,7 @@ object Form2: TForm2
             Size.PlatformDefault = False
             TabOrder = 0
             Text = 'Add Device'
+            TextSettings.Trimming = None
             OnClick = btn2Click
           end
         end
@@ -193,10 +206,12 @@ object Form2: TForm2
           Viewport.Height = 200.000000000000000000
           object strngclmn1: TStringColumn
             Header = 'DeviceName'
+            HeaderSettings.TextSettings.WordWrap = False
             Size.Width = 249.000000000000000000
           end
           object strngclmn3: TStringColumn
             Header = 'ID'
+            HeaderSettings.TextSettings.WordWrap = False
             Size.Width = 295.000000000000000000
           end
         end
@@ -215,6 +230,7 @@ object Form2: TForm2
       CustomIcon = <
         item
         end>
+      TextSettings.Trimming = None
       IsSelected = False
       Size.Width = 40.000000000000000000
       Size.Height = 26.000000000000000000
@@ -222,6 +238,8 @@ object Form2: TForm2
       StyleLookup = ''
       TabOrder = 0
       Text = 'Log'
+      ExplicitSize.cx = 40.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object edtCmdEdit: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         Align = Top
@@ -230,8 +248,10 @@ object Form2: TForm2
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         object btnCmdExecute: TEditButton
+          Touch.InteractiveGestures = [LongTap]
           CanFocus = False
           Cursor = crArrow
+          TextSettings.Trimming = None
           Size.Width = 84.000000000000000000
           Size.Height = 18.000000000000000000
           Size.PlatformDefault = False
